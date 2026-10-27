@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="56" viewBox="0 0 240 56" role="img" aria-label="Tajira">
+  <rect x="1" y="4" width="48" height="48" rx="12" fill="#0b1f3a"/>
+  <path d="M14 19h22M25 19v20" stroke="#3cc3c4" stroke-width="3.2" stroke-linecap="round"/>
+  <circle cx="14" cy="19" r="3.4" fill="#f0bd52"/>
+  <circle cx="36" cy="19" r="3.4" fill="#ffffff"/>
+  <circle cx="25" cy="39" r="3.4" fill="#3cc3c4"/>
+  <path d="M14 19l22 20M36 19L14 39" stroke="#3cc3c4" stroke-width="1.2" opacity=".45"/>
+  <text x="60" y="37" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="2" fill="#0b1f3a">TAJIRA</text>
+</svg>

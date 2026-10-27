@@ -1,0 +1,45 @@
+<?php
+
+return [
+    'business.name' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Business name'],
+    'business.legal_name' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Registered legal name'],
+    'business.phone' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Phone'],
+    'business.whatsapp' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'WhatsApp number (digits only)'],
+    'business.email' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Sales email'],
+    'business.support_email' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Support email'],
+    'business.address_line' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Address line'],
+    'business.city' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'City'],
+    'business.postal_code' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Postal code'],
+    'business.tax_pin' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Tax PIN'],
+    'business.domain' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Primary domain'],
+    'business.map_url' => ['group' => 'Business', 'type' => 'string', 'public' => true, 'label' => 'Map URL'],
+    'social.facebook' => ['group' => 'Social', 'type' => 'string', 'public' => true, 'label' => 'Facebook URL'],
+    'social.instagram' => ['group' => 'Social', 'type' => 'string', 'public' => true, 'label' => 'Instagram URL'],
+    'social.linkedin' => ['group' => 'Social', 'type' => 'string', 'public' => true, 'label' => 'LinkedIn URL'],
+    'social.x' => ['group' => 'Social', 'type' => 'string', 'public' => true, 'label' => 'X URL'],
+
+    'checkout.delivery_notice' => ['group' => 'Checkout', 'type' => 'text', 'public' => true, 'label' => 'Delivery notice'],
+    'checkout.pickup_enabled' => ['group' => 'Checkout', 'type' => 'boolean', 'public' => true, 'label' => 'Enable pickup'],
+    'checkout.pickup_instructions' => ['group' => 'Checkout', 'type' => 'text', 'public' => true, 'label' => 'Pickup instructions'],
+    'checkout.returns_summary' => ['group' => 'Policies', 'type' => 'text', 'public' => true, 'label' => 'Returns summary'],
+    'checkout.warranty_summary' => ['group' => 'Policies', 'type' => 'text', 'public' => true, 'label' => 'Warranty summary'],
+    'checkout.returns_days' => ['group' => 'Policies', 'type' => 'integer', 'public' => true, 'label' => 'Return window (days)'],
+    'checkout.reservation_minutes' => ['group' => 'Checkout', 'type' => 'integer', 'public' => false, 'label' => 'Stock reservation minutes'],
+
+    'tax.rate_percent' => ['group' => 'Tax', 'type' => 'decimal', 'public' => true, 'label' => 'Tax rate (%)'],
+    'tax.inclusive' => ['group' => 'Tax', 'type' => 'boolean', 'public' => true, 'label' => 'Prices include tax by default'],
+    'tax.note' => ['group' => 'Tax', 'type' => 'text', 'public' => false, 'label' => 'Tax note'],
+
+    'seo.default_title' => ['group' => 'SEO', 'type' => 'string', 'public' => true, 'label' => 'Default title suffix'],
+    'seo.default_description' => ['group' => 'SEO', 'type' => 'text', 'public' => true, 'label' => 'Default meta description'],
+    'seo.ga4_id' => ['group' => 'Analytics', 'type' => 'string', 'public' => true, 'label' => 'GA4 measurement ID'],
+    'seo.gsc_verification' => ['group' => 'Analytics', 'type' => 'string', 'public' => true, 'label' => 'Google Search Console verification token'],
+    'seo.merchant_feed_enabled' => ['group' => 'Analytics', 'type' => 'boolean', 'public' => true, 'label' => 'Enable Google Merchant feed'],
+    'analytics.require_consent' => ['group' => 'Analytics', 'type' => 'boolean', 'public' => true, 'label' => 'Require analytics consent'],
+
+    'payments.bank_enabled' => ['group' => 'Payments', 'type' => 'boolean', 'public' => true, 'label' => 'Enable bank transfer'],
+    'payments.bank_name' => ['group' => 'Payments', 'type' => 'string', 'public' => true, 'label' => 'Bank name'],
+    'payments.bank_account_name' => ['group' => 'Payments', 'type' => 'string', 'public' => true, 'label' => 'Bank account name'],
+    'payments.bank_account_number' => ['group' => 'Payments', 'type' => 'string', 'public' => true, 'label' => 'Bank account number'],
+    'payments.bank_branch' => ['group' => 'Payments', 'type' => 'string', 'public' => true, 'label' => 'Bank branch'],
+];

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56" role="img" aria-label="Tajira mark">
+  <rect width="56" height="56" rx="14" fill="#0b1f3a"/>
+  <path d="M16 21h25M28 21v23" stroke="#3cc3c4" stroke-width="3.4" stroke-linecap="round"/>
+  <circle cx="16" cy="21" r="3.7" fill="#f0bd52"/>
+  <circle cx="41" cy="21" r="3.7" fill="#ffffff"/>
+  <circle cx="28" cy="44" r="3.7" fill="#3cc3c4"/>
+</svg>
