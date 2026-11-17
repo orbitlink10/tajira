@@ -79,7 +79,7 @@ Set approved business facts and policy placeholders:
 - `TAJIRA_TAX_RATE_PERCENT`, `TAJIRA_TAX_INCLUSIVE`
 - delivery/pickup/returns/warranty settings via env or the admin Settings screen
 - social URLs and `TAJIRA_MAP_URL`
-- `TAJIRA_REQUIRE_ADMIN_MFA=true` for production
+- `TAJIRA_REQUIRE_ADMIN_MFA=false` keeps administrator MFA enrollment optional; administrators can enable MFA from Security.
 - `TAJIRA_STAGING_PROTECT=true` only on staging, with `TAJIRA_STAGING_USER/PASSWORD`
 - `TAJIRA_GLOBAL_NOINDEX=true` only while deliberately taking the site out of search
 

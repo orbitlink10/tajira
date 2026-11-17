@@ -41,4 +41,19 @@ class AdminPermissionsTest extends TestCase
 
         $this->actingAs($admin)->get('/admin')->assertRedirect(route('admin.mfa.challenge'));
     }
+
+    public function test_password_login_reaches_dashboard_when_mfa_enrollment_is_optional(): void
+    {
+        config(['tajira.security.require_admin_mfa' => false]);
+        $admin = $this->admin();
+        $admin->password = 'admin123';
+        $admin->save();
+
+        $this->post(route('admin.login'), [
+            'email' => $admin->email,
+            'password' => 'admin123',
+        ])->assertRedirect(route('admin.dashboard'));
+
+        $this->get(route('admin.dashboard'))->assertOk();
+    }
 }
