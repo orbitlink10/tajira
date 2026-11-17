@@ -170,3 +170,11 @@ document.addEventListener('click', (event) => {
 });
 
 Alpine.start();
+
+if (document.querySelector('[data-rich-editor]')) {
+    import('./description-editor').then(({ mountDescriptionEditor }) => {
+        return Promise.all([...document.querySelectorAll('[data-rich-editor]')].map(mountDescriptionEditor));
+    }).catch(() => {
+        // Keep the standard HTML textarea usable if the editor cannot load.
+    });
+}

@@ -338,3 +338,530 @@
         color: white;
     }
 }
+/* Administration: aligned with the Ubiquiti UniFi Kenya dashboard. */
+.tajira-admin {
+    background:linear-gradient(180deg,#f7f9fc,#eef3fa 180px,#f8fafc);
+    color:#172033;
+    font-family:'Segoe UI',Tahoma,sans-serif
+}
+.tajira-admin .tajira-sidebar {
+    background:#fff;
+    color:#475569;
+    border:1px solid #e5ebf4;
+    border-radius:24px;
+    box-shadow:12px 0 30px #94a3b824;
+    top:12px;
+    bottom:12px;
+    left:12px;
+    width:308px;
+    padding:14px 12px
+}
+.tajira-sidebar>div:first-child {
+    height:100px;
+    border:1px solid #e5ebf4;
+    border-radius:20px;
+    box-shadow:0 12px 28px #0f172a14;
+    padding:20px;
+    margin-bottom:18px
+}
+.tajira-sidebar>div:first-child>a {
+    gap:14px
+}
+.tajira-sidebar>div:first-child img {
+    width:48px;
+    height:48px
+}
+.tajira-brand {
+    font-size:24px;
+    font-weight:800;
+    color:#172033
+}
+.tajira-brand small {
+    display:block;
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:#64748b;
+    margin-top:3px
+}
+.tajira-sidebar>div:last-child {
+    border-color:#e5ebf4;
+    color:#64748b
+}
+.tajira-sidebar>div:last-child .text-white {
+    color:#172033
+}
+.tajira-sidebar a.text-brand-300 {
+    color:#2f61e6
+}
+.tajira-sidebar .admin-nav-link {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    min-height:60px;
+    padding:8px 12px;
+    border-radius:18px;
+    color:#475569;
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:8px
+}
+.tajira-sidebar .admin-nav-link:hover {
+    background:#f6f9fd
+}
+.tajira-sidebar .admin-nav-link.is-active {
+    background:linear-gradient(135deg,#3b6df1,#2f61e6);
+    color:white;
+    box-shadow:0 12px 24px #2f61e633
+}
+.tajira-nav-icon {
+    display:grid;
+    place-items:center;
+    width:40px;
+    height:40px;
+    flex-shrink:0;
+    background:#eef2f7;
+    border-radius:13px;
+    color:#64748b
+}
+.tajira-nav-icon svg {
+    width:19px;
+    height:19px
+}
+.is-active .tajira-nav-icon {
+    color:white;
+    background:#ffffff2e
+}
+.tajira-sidebar nav p {
+    color:#64748b;
+    letter-spacing:.18em;
+    font-size:11px;
+    margin:8px 0
+}
+.tajira-sidebar>div:nth-child(2) {
+    padding:0 2px
+}
+.tajira-topbar {
+    background:transparent;
+    border:0;
+    position:relative;
+    height:auto;
+    min-height:56px;
+    padding:12px 24px
+}
+.tajira-topbar h1 {
+    font-size:13px;
+    color:#64748b
+}
+.tajira-topbar h1+p {
+    display:none
+}
+.tajira-content {
+    padding:8px 24px 32px
+}
+.tajira-hero {
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:24px
+}
+.tajira-pill {
+    display:inline-block;
+    background:#1677ff1a;
+    color:#54729c;
+    border-radius:999px;
+    padding:8px 14px;
+    font-size:13px
+}
+.tajira-hero h2 {
+    font-size:clamp(30px,3.2vw,46px);
+    font-weight:700;
+    line-height:1.08;
+    margin:10px 0
+}
+.tajira-hero p {
+    max-width:700px;
+    color:#58739b;
+    font-size:16px;
+    line-height:1.5
+}
+.tajira-actions {
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    max-width:440px
+}
+.tajira-actions a {
+    border:1px solid #94a3b8;
+    border-radius:999px;
+    padding:12px 20px;
+    font-size:14px;
+    color:#64748b;
+    font-weight:600
+}
+.tajira-actions a.primary {
+    background:#1677ff;
+    border-color:#1677ff;
+    color:white
+}
+.tajira-actions a:hover {
+    box-shadow:0 4px 14px #1677ff26
+}
+.tajira-breadcrumb {
+    display:flex;
+    gap:12px;
+    color:#64748b;
+    font-size:13px;
+    margin:22px 0
+}
+.tajira-overview,.tajira-summary {
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:16px;
+    margin-bottom:18px
+}
+.tajira-stat,.tajira-summary-card {
+    position:relative;
+    overflow:hidden;
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:22px;
+    box-shadow:0 12px 30px #1118270f;
+    padding:22px
+}
+.tajira-stat:after,.tajira-summary-card:after {
+    content:'';
+    position:absolute;
+    width:120px;
+    height:120px;
+    top:-56px;
+    right:-54px;
+    border-radius:50%;
+    background:var(--accent)
+}
+.blue {
+    --accent:#1677ff29;
+    --tone:#0a4588;
+    --edge:#1677ff
+}
+.teal {
+    --accent:#24adc21f;
+    --tone:#0e7490;
+    --edge:#24adc2
+}
+.dark {
+    --accent:#11182714;
+    --tone:#111827;
+    --edge:#334155
+}
+.rose {
+    --accent:#0a45881f;
+    --tone:#9f1239;
+    --edge:#0a4588
+}
+.tajira-stat-icon {
+    display:inline-grid;
+    place-items:center;
+    width:42px;
+    height:42px;
+    border-radius:14px;
+    background:#f6f9fd;
+    color:var(--tone);
+    font-weight:700;
+    font-size:13px
+}
+.tajira-stat p,.tajira-summary-card p {
+    font-size:11px;
+    font-weight:700;
+    color:#64748b;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    margin:16px 0 6px
+}
+.tajira-stat h3,.tajira-summary-card h3 {
+    font-size:clamp(22px,2.3vw,34px);
+    font-weight:700;
+    line-height:1.15;
+    overflow-wrap:anywhere
+}
+.tajira-stat small,.tajira-summary-card small {
+    display:block;
+    margin-top:8px;
+    color:#6b7280;
+    font-size:13px
+}
+.tajira-stat>a {
+    display:inline-flex;
+    gap:10px;
+    margin-top:18px;
+    color:var(--tone);
+    font-weight:700;
+    font-size:14px
+}
+.tajira-summary-card {
+    padding:20px 22px;
+    border-top:4px solid var(--edge)
+}
+.tajira-summary-card p {
+    margin-top:0;
+    letter-spacing:.05em
+}
+.tajira-admin .card {
+    border-radius:22px;
+    border-color:#e5e7eb;
+    box-shadow:0 12px 30px #1118270d
+}
+.tajira-admin .card>div:first-child {
+    padding:20px;
+    border-color:#edf0f5
+}
+.tajira-admin .card h2 {
+    font-size:18px
+}
+.tajira-admin .table-admin th {
+    background:#f8fafc;
+    color:#64748b;
+    font-size:11px;
+    letter-spacing:.06em
+}
+.tajira-admin .table-admin td {
+    font-size:13px;
+    padding-top:16px;
+    padding-bottom:16px
+}
+.tajira-admin .text-brand-700 {
+    color:#2f61e6
+}
+@media(min-width:1024px) {
+    .tajira-main {
+        padding-left:330px
+    }
+
+}
+@media(max-width:1200px) {
+    .tajira-hero {
+        flex-direction:column
+    }
+    .tajira-actions {
+        justify-content:flex-start;
+        max-width:none
+    }
+    .tajira-overview,.tajira-summary {
+        grid-template-columns:repeat(2,minmax(0,1fr))
+    }
+
+}
+@media(max-width:1023px) {
+    .tajira-sidebar>div:first-child button {
+        color:#475569
+    }
+    .tajira-content {
+        padding:8px 16px 24px
+    }
+    .tajira-topbar {
+        padding:12px 16px
+    }
+
+}
+@media(max-width:540px) {
+    .tajira-overview,.tajira-summary {
+        grid-template-columns:1fr
+    }
+    .tajira-actions {
+        gap:8px
+    }
+    .tajira-actions a {
+        padding:10px 14px
+    }
+    .tajira-admin .tajira-sidebar {
+        width:min(308px,calc(100vw - 24px))
+    }
+    .tajira-topbar>div:last-child {
+        flex-wrap:wrap
+    }
+
+}
+/* Screenshot refinements for the dashboard and category management screens. */
+.tajira-admin .tajira-sidebar { width: 332px; }
+.tajira-sidebar > div:first-child { background: linear-gradient(135deg, #fff 55%, #eff5ff); }
+.tajira-sidebar > div:first-child img { padding: 8px; width: 58px; height: 58px; border-radius: 18px; background: linear-gradient(135deg, #0a4588, #1677ff); }
+.tajira-sidebar .admin-nav-link { min-height: 66px; }
+.tajira-stat { min-height: 216px; }
+.tajira-stat-icon { background: transparent; }
+.tajira-stat > a { position: relative; z-index: 1; }
+.tajira-breadcrumb { justify-content: flex-end; }
+.tajira-pill { text-transform: uppercase; letter-spacing: .16em; font-weight: 700; }
+.tajira-page-title { font-size: clamp(30px, 3.1vw, 46px); line-height: 1.1; font-weight: 800; letter-spacing: -.03em; }
+.tajira-categories .tajira-content > div:first-child { margin-bottom: 24px; }
+.tajira-categories .btn { border-radius: 999px; padding: 14px 22px; font-size: 14px; }
+.tajira-categories .btn-primary { background: #1677ff; border-color: #1677ff; color: #fff; }
+.tajira-categories .btn-primary:hover { background: #0a62df; }
+.tajira-categories .tajira-category-table { min-width: 760px; }
+.tajira-categories .tajira-category-table th { padding: 20px 18px; letter-spacing: .16em; }
+.tajira-categories .tajira-category-table td { padding: 18px; font-size: 14px; line-height: 1.6; border: 1px solid #d8e2f2; }
+.tajira-category-table th + th { border-left: 1px solid #d8e2f2; }
+.tajira-category-table th:first-child, .tajira-category-table td:first-child { text-align: center; width: 60px; }
+.tajira-category-table td:nth-child(2) { width: 25%; }
+.tajira-category-table td:nth-child(3) { overflow-wrap: anywhere; max-width: 200px; }
+.tajira-category-detail { display: block; margin-top: 10px; color: #8492a9; font-size: 11px; font-weight: 400; }
+.tajira-category-image { display: block; width: 140px; height: 84px; object-fit: contain; background: #f8fafc; border: 1px solid #d8e2f2; border-radius: 9px; }
+.tajira-no-image { display: grid; place-items: center; color: #8d99ae; font-size: 14px; }
+.tajira-category-actions { display: flex; flex-wrap: wrap; gap: 10px; min-width: 172px; }
+.tajira-category-actions a, .tajira-category-actions button { display: inline-flex; justify-content: center; align-items: center; padding: 11px 17px; border-radius: 999px; font-size: 14px; font-weight: 700; }
+.tajira-preview { background: #24adc2; color: white; }
+.tajira-update { background: #ffc107; color: #111827; }
+.tajira-delete { background: #ed3345; color: white; cursor: pointer; }
+.tajira-category-actions a:hover, .tajira-category-actions button:hover { filter: brightness(.95); }
+.tajira-category-form { width: 100%; }
+.tajira-category-form .card { padding: 28px 30px; }
+.tajira-category-form .field-label { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+.tajira-category-form .field-input { border: 1px solid #d4dff0; border-radius: 15px; padding: 17px 18px; font-size: 15px; background: #fff; color: #172033; }
+.tajira-category-form .field-input::placeholder { color: #94a3b8; }
+.tajira-category-form .field-input:focus { border-color: #1677ff; outline-color: #1677ff; }
+.tajira-category-form .grid { gap: 24px; }
+@media (min-width: 1024px) { .tajira-main { padding-left: 354px; } }
+@media (max-width: 540px) {
+    .tajira-admin .tajira-sidebar { width: min(308px, calc(100vw - 24px)); }
+    .tajira-category-form .card { padding: 20px; }
+    .tajira-page-title { font-size: 30px; }
+}
+/* Product management follows the supplied list and form references. */
+.tajira-products-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin: 4px 0 24px; }
+.tajira-products-heading p { color: #58739b; font-size: 16px; line-height: 1.5; margin-top: 8px; }
+.tajira-products .btn { border-radius: 999px; padding: 12px 20px; font-size: 14px; }
+.tajira-products .btn-primary { background: #1677ff; border-color: #1677ff; color: #fff; }
+.tajira-products .btn-primary:hover { background: #0a62df; }
+.tajira-product-tools { margin-bottom: 18px; color: #64748b; font-size: 13px; }
+.tajira-product-tools summary { cursor: pointer; padding: 8px 0; }
+.tajira-product-list-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.tajira-product-list-head h2 { font-weight: 700; }
+.tajira-product-list-head form { display: flex; gap: 8px; width: min(480px, 65%); }
+.tajira-product-list-head input { min-width: 0; flex: 1; border: 1px solid #d4dff0; border-radius: 14px; padding: 12px; font-size: 14px; }
+.tajira-products .tajira-product-table { min-width: 880px; }
+.tajira-products .tajira-product-table th { padding: 18px 12px; font-size: 10px; letter-spacing: .12em; border: 1px solid #d8e2f2; }
+.tajira-products .tajira-product-table td { padding: 16px 12px; border: 1px solid #d8e2f2; font-size: 13px; line-height: 1.5; }
+.tajira-product-table td:nth-child(3) { width: 27%; }
+.tajira-product-image { width: 128px; height: 82px; min-width: 110px; object-fit: contain; border: 1px solid #d8e2f2; border-radius: 9px; background: white; }
+.tajira-product-detail { display: block; color: #8492a9; font-size: 11px; margin-top: 8px; }
+.tajira-product-actions { display: grid; gap: 7px; min-width: 92px; }
+.tajira-product-actions a, .tajira-product-actions button { display: block; width: 100%; text-align: center; border: 1px solid currentColor; border-radius: 999px; padding: 8px 12px; font-size: 12px; font-weight: 600; background: #fff; cursor: pointer; }
+.tajira-product-actions .preview { color: #00b4cc; }
+.tajira-product-actions .update { color: #1677ff; }
+.tajira-product-actions .delete { color: #ff3345; }
+.tajira-product-actions a:hover, .tajira-product-actions button:hover { background: #f1f5fc; }
+.tajira-product-basics { padding: 30px; }
+.tajira-product-fields { display: grid; gap: 26px; }
+.tajira-product-fields > div { grid-column: 1 / -1; }
+.tajira-product-form .field-label { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+.tajira-product-form .field-input { border: 1px solid #d4dff0; border-radius: 15px; padding: 17px 18px; font-size: 15px; background: #fff; color: #172033; }
+.tajira-product-form .field-input::placeholder { color: #94a3b8; }
+.tajira-product-form .field-input:focus { border-color: #1677ff; }
+.tajira-product-additional > aside { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.tajira-product-form .tajira-product-additional .card { padding: 24px; }
+@media (max-width: 700px) {
+    .tajira-products-heading, .tajira-product-list-head { flex-direction: column; }
+    .tajira-product-list-head form { width: 100%; }
+    .tajira-product-basics { padding: 20px; }
+    .tajira-product-additional > aside { grid-template-columns: 1fr; }
+}
+/* Match the reference description editor's menus and boxed controls. */
+:is(.tajira-product-fields, .tajira-page-fields) .tox.tox-tinymce { border: 1px solid #d4dff0; border-radius: 20px; }
+:is(.tajira-product-fields, .tajira-page-fields) .tox .tox-menubar { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; }
+:is(.tajira-product-fields, .tajira-page-fields) .tox .tox-mbtn { font-family: 'Segoe UI', sans-serif; font-size: 14px; color: #172033; }
+:is(.tajira-product-fields, .tajira-page-fields) .tox .tox-toolbar__primary { padding: 12px 14px; background: white; border-bottom: 1px solid #e2e8f0; }
+:is(.tajira-product-fields, .tajira-page-fields) .tox .tox-toolbar__group { padding: 0 2px; border: 0; }
+:is(.tajira-product-fields, .tajira-page-fields) .tox .tox-tbtn { border: 1px solid #e0e5ed; border-radius: 9px; margin: 2px; width: 40px; height: 40px; }
+:is(.tajira-product-fields, .tajira-page-fields) .tox .tox-tbtn svg { fill: #172033; }
+:is(.tajira-product-fields, .tajira-page-fields) .tox .tox-tbtn:hover { background: #eff4ff; }
+.content-align-left { text-align: left; }
+.content-align-center { text-align: center; }
+.content-align-right { text-align: right; }
+.tajira-product-video { padding: 30px; }
+.tajira-product-video h2 { font-size: 20px; font-weight: 700; margin-bottom: 28px; }
+.tajira-product-video p { font-size: 13px; color: #58739b; line-height: 1.65; margin-top: 14px; }
+.tajira-product-accordion { background: #fff; border: 1px solid #d4dff0; border-radius: 20px; overflow: hidden; }
+.tajira-product-accordion > summary { padding: 20px; font-size: 15px; font-weight: 700; color: #26384f; cursor: pointer; background: #fbfdff; }
+.tajira-product-accordion[open] > summary { border-bottom: 1px solid #e2e8f0; }
+.tajira-product-accordion > .tajira-product-additional, .tajira-accordion-content { padding: 20px; }
+.tajira-accordion-content { color: #58739b; font-size: 14px; line-height: 1.7; }
+.tajira-product-save { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 12px 0 24px; }
+.tajira-product-save > p { color: #58739b; font-size: 13px; line-height: 1.7; }
+.tajira-product-save > div { display: flex; gap: 10px; flex-shrink: 0; }
+@media (max-width: 600px) { .tajira-product-save { align-items: flex-start; flex-direction: column; } .tajira-product-video { padding: 20px; } }
+.tajira-product-accordion input[type="file"] { width: 100%; padding: 12px; border: 1px solid #d4dff0; border-radius: 15px; background: white; color: #172033; }
+.tajira-product-accordion input[type="file"]::file-selector-button { border: 1px solid #c8d6e8; background: #f8fafc; border-radius: 10px; padding: 12px 16px; margin-right: 14px; cursor: pointer; color: #172033; }
+/* Pages use the same management layout as the supplied reference. */
+.tajira-pages-heading { margin: 4px 0 24px; }
+.tajira-pages-heading p { color: #58739b; font-size: 17px; line-height: 1.5; margin-top: 12px; }
+.tajira-pages .btn { border-radius: 999px; padding: 13px 22px; font-size: 14px; }
+.tajira-pages .btn-primary { background: #1677ff; color: white; border-color: #1677ff; }
+.tajira-pages-list-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 28px !important; border-bottom: 1px solid #d8e2f2; }
+.tajira-pages-list-head h2 { font-weight: 700; }
+.tajira-add-page { background: #eff5ff; color: #1677ff; font-weight: 700; }
+.tajira-pages-bulk { padding: 20px 28px 12px; display: flex; flex-wrap: wrap; gap: 12px; }
+.tajira-pages-bulk select { border: 1px solid #d4dff0; border-radius: 999px; min-width: 180px; padding: 12px 20px; color: #475569; }
+.tajira-pages .tajira-pages-table { min-width: 820px; }
+.tajira-pages .tajira-pages-table th { padding: 18px; letter-spacing: .14em; border: 1px solid #d8e2f2; }
+.tajira-pages .tajira-pages-table td { padding: 20px 18px; border: 1px solid #d8e2f2; font-size: 14px; line-height: 1.65; }
+.tajira-pages-table td:nth-child(4) { width: 28%; }
+.tajira-pages-table small { display: block; color: #8492a9; font-size: 11px; margin-top: 10px; overflow-wrap: anywhere; }
+.tajira-page-image { display: grid; place-items: center; width: 140px; height: 84px; border: 1px solid #d8e2f2; border-radius: 9px; background: #f8fafc; color: #8d99ae; }
+.tajira-page-actions { display: grid; gap: 8px; min-width: 90px; }
+.tajira-page-actions a, .tajira-page-actions button { display: block; width: 100%; padding: 9px 14px; border: 1px solid currentColor; border-radius: 999px; text-align: center; font-size: 13px; font-weight: 700; cursor: pointer; }
+.tajira-page-actions .preview { color: #00b4cc; }
+.tajira-page-actions .update { color: #e5a000; }
+.tajira-page-actions .delete { color: #ff3345; }
+.tajira-page-form .card { padding: 30px; }
+.tajira-page-fields { gap: 26px; }
+.tajira-page-fields > div { grid-column: 1 / -1; }
+.tajira-page-form .field-label { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+.tajira-page-form .field-input { border: 1px solid #d4dff0; border-radius: 15px; padding: 17px 18px; font-size: 15px; background: #fff; color: #172033; }
+.tajira-page-form .field-input::placeholder { color: #94a3b8; }
+.tajira-page-settings { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+@media (max-width: 700px) { .tajira-page-settings { grid-template-columns: 1fr; } .tajira-page-form .card { padding: 20px; } }
+/* Final reference measurements, in CSS pixels (independent of browser zoom). */
+.tajira-admin { --admin-blue: #1677ff; --admin-text: #111827; --admin-muted: #58739b; --admin-line: #d8e2f2; background: linear-gradient(180deg, #f7f9fc 0, #eef3fa 180px, #f8fafc 100%); color: var(--admin-text); }
+.tajira-admin .tajira-sidebar { left: 18px; top: 18px; bottom: 18px; width: 332px; padding: 14px 12px 20px; overflow-y: auto; }
+.tajira-sidebar > div:first-child { min-height: 100px; height: auto; flex-shrink: 0; padding: 20px 24px; border-radius: 20px; margin-bottom: 18px; }
+.tajira-brand { font-size: 22px; line-height: 1.1; }
+.tajira-brand small { font-size: 12px; line-height: 1.2; margin-top: 4px; }
+.tajira-sidebar > div:nth-child(2) { overflow: visible; flex: none; }
+.tajira-sidebar .admin-nav-link { min-height: 60px; padding: 10px 16px; gap: 12px; font-size: 14px; line-height: 1.35; }
+.tajira-sidebar .admin-nav-link.is-active { box-shadow: 0 16px 30px rgb(47 97 230 / 26%); }
+.tajira-nav-icon { width: 44px; height: 44px; border-radius: 14px; }
+.tajira-sidebar nav p { font-size: 12px; line-height: 1.4; color: #8b94a7; margin: 2px 8px 8px; }
+.tajira-sidebar-session { margin-top: 16px; }
+.tajira-sidebar-session > div { flex-wrap: wrap; }
+.tajira-admin .btn-primary { background: #1677ff; border-color: #1677ff; color: white; }
+.tajira-admin .btn-primary:hover { background: #0a62df; }
+.tajira-admin .btn { border-radius: 999px; }
+.tajira-admin .btn-secondary { border-color: #94a3b8; color: #64748b; background: transparent; }
+.tajira-admin .field-input:focus { border-color: #1677ff; outline-color: #1677ff; }
+.tajira-admin .badge { border-radius: 999px; }
+.tajira-admin .card { border: 1px solid #e5e7eb; border-radius: 22px; box-shadow: 0 12px 30px rgb(17 24 39 / 5%); }
+.tajira-pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; font-size: 14px; }
+.tajira-hero h2 { font-size: clamp(28px, 2.8vw, 40px); }
+.tajira-stat { min-height: 200px; }
+.tajira-stat h3, .tajira-summary-card h3 { color: #111827; }
+.tajira-actions a { min-height: 44px; padding: 10px 22px; }
+.tajira-page-title { font-size: clamp(34px, 3.1vw, 52px); line-height: 1.08; font-weight: 700; }
+.tajira-pages-heading p, .tajira-products-heading p { margin-top: 10px; font-size: 17px; line-height: 1.45; }
+.tajira-pages .tajira-pages-list-head { padding: 22px 28px !important; }
+.tajira-pages-list > .overflow-x-auto { padding: 0 28px 28px; }
+.tajira-pages .tajira-pages-table th { font-size: 11px; letter-spacing: .18em; }
+.tajira-pages .tajira-pages-table td { padding: 16px 18px; font-size: 14px; line-height: 1.6; }
+.tajira-pages-bulk select { min-height: 48px; max-width: 180px; font-size: 15px; }
+.tajira-pages-bulk .btn { min-height: 48px; font-size: 15px; }
+.tajira-product-form .field-input, .tajira-page-form .field-input, .tajira-category-form .field-input { min-height: 56px; padding: 0 18px; border-radius: 14px; font-size: 15px; line-height: 1.4; }
+.tajira-product-form textarea.field-input, .tajira-page-form textarea.field-input, .tajira-category-form textarea.field-input { min-height: 112px; padding: 14px 18px; }
+.tajira-product-accordion > summary { padding: 16px 18px; font-size: 14px; }
+.tajira-accordion-content { padding: 18px; }
+.tajira-product-save .btn { min-height: 44px; padding: 10px 22px; }
+@media (min-width: 1024px) {
+    .tajira-admin .tajira-main { padding: 26px 18px 24px 372px; }
+    .tajira-content { padding: 0; }
+    .tajira-dashboard-page .tajira-topbar, .tajira-products .tajira-topbar, .tajira-pages .tajira-topbar, .tajira-categories .tajira-topbar { display: none; }
+}
+@media (max-width: 1023px) { .tajira-sidebar-session { display: none; } }
+@media (max-width: 540px) { .tajira-admin .tajira-sidebar { left: 12px; width: min(308px, calc(100vw - 24px)); } }

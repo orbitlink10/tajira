@@ -78,6 +78,36 @@ class PageController extends Controller
         return redirect()->route('admin.pages.index')->with('success', 'Page deleted.');
     }
 
+    public function bulk(Request $request, AuditLogger $audit, RevisionService $revisions)
+    {
+        $this->authorize('content.manage');
+        $data = $request->validate([
+            'ids' => ['required', 'array', 'min:1', 'max:100'],
+            'ids.*' => ['required', 'integer', 'distinct', 'exists:pages,id'],
+            'action' => ['required', 'in:draft,published,archived,delete'],
+        ]);
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($data, $request, $audit, $revisions) {
+            foreach (Page::query()->whereIn('id', $data['ids'])->get() as $page) {
+                $old = $page->toArray();
+                if ($data['action'] === 'delete') {
+                    $audit->log('page.deleted', $page, $old);
+                    $page->delete();
+                } else {
+                    $page->update([
+                        'status' => $data['action'],
+                        'published_at' => $data['action'] === 'published' ? now() : $page->published_at,
+                        'updated_by' => $request->user()->id,
+                    ]);
+                    $revisions->record($page, $request->user(), 'Bulk status update');
+                    $audit->log('page.updated', $page, $old, $page->fresh()->toArray());
+                }
+            }
+        });
+
+        return redirect()->route('admin.pages.index')->with('success', 'Selected pages updated.');
+    }
+
     public function preview(Page $page, SeoService $seo)
     {
         $this->authorize('content.view');

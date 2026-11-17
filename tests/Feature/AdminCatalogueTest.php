@@ -7,6 +7,8 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\Concerns\CreatesStoreData;
 use Tests\TestCase;
 
@@ -16,6 +18,7 @@ class AdminCatalogueTest extends TestCase
 
     public function test_admin_can_create_and_update_a_product_with_structured_attributes_and_slug_redirect(): void
     {
+        Storage::fake('public');
         $admin = $this->admin();
         $brand = Brand::factory()->create(['name' => 'Admin Brand']);
         $category = Category::factory()->create(['name' => 'Admin Switches']);
@@ -30,6 +33,7 @@ class AdminCatalogueTest extends TestCase
         $value = $attribute->values()->create(['value' => '8 ports', 'slug' => '8-ports', 'numeric_value' => 8]);
 
         $payload = [
+            'product_image' => UploadedFile::fake()->image('switch.jpg', 100, 100),
             'name' => 'Admin Created Switch 8',
             'slug' => 'admin-created-switch-8',
             'sku' => 'ADMIN-SW-8',
@@ -44,6 +48,7 @@ class AdminCatalogueTest extends TestCase
             'low_stock_threshold' => '1',
             'short_description' => 'An admin-created switch used for a feature test.',
             'description' => '<p>Original test description.</p>',
+            'youtube_url' => 'https://youtu.be/dQw4w9WgXcQ',
             'key_features_text' => "Feature one\nFeature two",
             'categories' => [$category->id],
             'attributes' => [
@@ -52,16 +57,27 @@ class AdminCatalogueTest extends TestCase
             'is_indexable' => '1',
         ];
 
+        $invalid = $payload;
+        $invalid['product_image'] = UploadedFile::fake()->create('not-an-image.pdf', 20, 'application/pdf');
+        $this->actingAs($admin)->post(route('admin.products.store'), $invalid)->assertSessionHasErrors('product_image');
+        $this->assertDatabaseMissing('products', ['sku' => 'ADMIN-SW-8']);
         $this->actingAs($admin)->post(route('admin.products.store'), $payload)->assertRedirect();
 
         $product = Product::query()->where('sku', 'ADMIN-SW-8')->firstOrFail();
         $this->assertSame(Product::STATUS_DRAFT, $product->status);
+        $image = $product->images()->firstOrFail();
+        $this->assertTrue($image->is_primary);
+        $this->assertSame($product->name, $image->alt);
+        $this->assertSame('image/webp', $image->mime);
+        Storage::disk('public')->assertExists($image->path);
         $this->assertSame(120000, $product->price_minor);
+        $this->assertSame('https://youtu.be/dQw4w9WgXcQ', $product->youtube_url);
         $this->assertSame($category->id, $product->primary_category_id);
         $this->assertDatabaseHas('product_categories', ['product_id' => $product->id, 'category_id' => $category->id, 'is_primary' => 1]);
         $this->assertDatabaseHas('product_attribute_values', ['product_id' => $product->id, 'attribute_id' => $attribute->id, 'attribute_value_id' => $value->id]);
 
         $update = $payload;
+        unset($update['product_image']);
         $update['slug'] = 'admin-created-switch-8-renamed';
         $update['status'] = 'published';
         $update['price'] = '1500';
@@ -73,10 +89,14 @@ class AdminCatalogueTest extends TestCase
         $product->refresh();
         $this->assertSame(Product::STATUS_PUBLISHED, $product->status);
         $this->assertSame(150000, $product->price_minor);
+        $this->assertSame(1, $product->images()->count());
         $this->assertSame('admin-created-switch-8-renamed', $product->slug);
         $this->assertDatabaseHas('redirects', ['from_path' => '/products/admin-created-switch-8', 'to_path' => '/products/admin-created-switch-8-renamed']);
 
-        $this->get(route('products.show', $product))->assertOk()->assertSee('Admin Created Switch 8');
+        $this->get(route('products.show', $product))->assertOk()->assertSee('Admin Created Switch 8')->assertSee('https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ', false);
+        $update['youtube_url'] = '';
+        $this->actingAs($admin)->put(route('admin.products.update', $product), $update)->assertRedirect();
+        $this->assertNull($product->fresh()->youtube_url);
         $this->get('/products/admin-created-switch-8')->assertRedirect('/products/admin-created-switch-8-renamed');
     }
 }

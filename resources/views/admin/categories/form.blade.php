@@ -5,7 +5,8 @@
 @section('subheading', 'Category content is server-rendered and can be indexed independently.')
 
 @section('content')
-    <form method="post" action="{{ $category->exists ? route('admin.categories.update', $category) : route('admin.categories.store') }}" class="max-w-3xl space-y-4">
+    <div class="tajira-pages-heading"><h2 class="tajira-page-title">{{ $category->exists ? 'Edit Category' : 'Create New Category' }}</h2></div>
+    <form method="post" action="{{ $category->exists ? route('admin.categories.update', $category) : route('admin.categories.store') }}" class="tajira-category-form space-y-4">
         @csrf
         @if($category->exists) @method('put') @endif
 
@@ -13,8 +14,8 @@
             <h2 class="text-sm font-bold text-ink-900">Basics</h2>
             <div class="mt-4 grid gap-4 sm:grid-cols-2">
                 <div class="sm:col-span-2">
-                    <label for="name" class="field-label">Name</label>
-                    <input id="name" name="name" value="{{ old('name', $category->name) }}" required class="field-input">
+                    <label for="name" class="field-label">Name <span class="text-red-600">*</span></label>
+                    <input id="name" placeholder="Enter category name" name="name" value="{{ old('name', $category->name) }}" required class="field-input">
                 </div>
                 <div>
                     <label for="slug" class="field-label">Slug</label>
@@ -62,7 +63,7 @@
                 </div>
                 <div class="sm:col-span-2">
                     <label for="meta_description" class="field-label">Meta description</label>
-                    <textarea id="meta_description" name="meta_description" rows="2" maxlength="320" class="field-input">{{ old('meta_description', $category->meta_description) }}</textarea>
+                    <textarea id="meta_description" name="meta_description" rows="4" placeholder="Enter category meta description" maxlength="320" class="field-input">{{ old('meta_description', $category->meta_description) }}</textarea>
                 </div>
                 <div class="sm:col-span-2">
                     <label for="canonical_override" class="field-label">Canonical override (optional)</label>

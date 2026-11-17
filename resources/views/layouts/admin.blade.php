@@ -8,15 +8,15 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo-mark.svg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-full bg-slate-100 text-ink-900 antialiased">
+<body class="tajira-admin {{ request()->routeIs('admin.pages.*') ? 'tajira-pages' : '' }} {{ request()->routeIs('admin.products.*') ? 'tajira-products' : '' }} {{ request()->routeIs('admin.categories.*') ? 'tajira-categories' : '' }} {{ request()->routeIs('admin.dashboard') ? 'tajira-dashboard-page' : '' }} min-h-full text-ink-900 antialiased">
     <div x-data="{ sidebarOpen: false }">
         <div x-show="sidebarOpen" x-cloak class="fixed inset-0 z-40 bg-ink-950/60 lg:hidden" @click="sidebarOpen = false"></div>
 
-        <aside class="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-ink-950 text-white transition-transform lg:translate-x-0" :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
+        <aside class="tajira-sidebar fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-ink-950 text-white transition-transform lg:translate-x-0" :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
             <div class="flex h-16 items-center justify-between border-b border-white/10 px-4">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
                     <img src="{{ asset('images/logo-mark.svg') }}" alt="" width="34" height="34" class="h-8 w-8">
-                    <span class="text-sm font-bold uppercase tracking-[0.2em]">Tajira</span>
+                    <span class="tajira-brand">Tajira<small>Admin Panel</small></span>
                 </a>
                 <button type="button" class="rounded p-1 text-white/70 hover:text-white lg:hidden" @click="sidebarOpen = false" aria-label="Close menu">✕</button>
             </div>
@@ -29,11 +29,23 @@
                 <p class="font-semibold text-white">{{ auth()->user()->name }}</p>
                 <p>{{ auth()->user()->roleLabel() }}</p>
                 <a href="{{ route('home') }}" target="_blank" rel="noopener" class="mt-2 inline-block text-brand-300 hover:text-white">View storefront ↗</a>
+                <div class="tajira-sidebar-session">                <div class="flex items-center gap-2">
+                    @if(auth()->user()->mfa_enabled)
+                        <span class="hidden rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-800 sm:inline">MFA on</span>
+                    @else
+                        <a href="{{ route('admin.mfa.setup') }}" class="hidden rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-900 hover:bg-amber-100 sm:inline">Set up MFA</a>
+                    @endif
+                    <a href="{{ route('admin.mfa.setup') }}" class="hidden text-sm font-medium text-ink-600 hover:text-brand-700 sm:inline">Security</a>
+                    <form method="post" action="{{ route('admin.logout') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-secondary px-3 py-1.5 text-xs">Sign out</button>
+                    </form>
+                </div></div>
             </div>
         </aside>
 
-        <div class="lg:pl-64">
-            <header class="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-ink-200 bg-white px-4 sm:px-6">
+        <div class="tajira-main lg:pl-64">
+            <header class="tajira-topbar sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-ink-200 bg-white px-4 sm:px-6">
                 <div class="flex items-center gap-3">
                     <button type="button" class="rounded-lg border border-ink-300 p-2 text-ink-700 lg:hidden" @click="sidebarOpen = true" aria-label="Open menu">
                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/></svg>
@@ -58,7 +70,7 @@
                 </div>
             </header>
 
-            <main class="p-4 sm:p-6">
+            <main class="tajira-content p-4 sm:p-6">
                 @if(session('success') || session('error') || session('info') || session('warning'))
                     <div class="mb-4 space-y-2">
                         @foreach([

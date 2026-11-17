@@ -78,12 +78,13 @@ class ProductController extends Controller
         ];
         unset($data['categories']);
 
-        $product = DB::transaction(function () use ($data, $categories, $attributes, $relations, $audit) {
+        $product = DB::transaction(function () use ($data, $categories, $attributes, $relations, $audit, $request) {
             $product = Product::query()->create($data);
             $this->syncCategories($product, $categories, $data['primary_category_id'] ?? null);
             $this->syncAttributes($product, $attributes);
             $this->syncRelations($product, $relations);
             $audit->log('product.created', $product, [], $product->toArray());
+            $this->saveFormImage($request, $product, $audit);
 
             return $product;
         });
@@ -116,12 +117,13 @@ class ProductController extends Controller
         ];
         unset($data['categories']);
 
-        DB::transaction(function () use ($product, $data, $categories, $attributes, $relations, $audit) {
+        DB::transaction(function () use ($product, $data, $categories, $attributes, $relations, $audit, $request) {
             $product->update($data);
             $this->syncCategories($product, $categories, $data['primary_category_id'] ?? null);
             $this->syncAttributes($product, $attributes);
             $this->syncRelations($product, $relations);
             $audit->log('product.updated', $product, [], $product->fresh()->toArray());
+            $this->saveFormImage($request, $product, $audit);
         });
 
         if ($oldSlug !== $product->slug) {
@@ -217,6 +219,32 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('admin.products.index')->with('success', 'Product deleted. Existing redirects are not removed automatically.');
+    }
+
+    private function saveFormImage(Request $request, Product $product, AuditLogger $audit): void
+    {
+        if (! $request->hasFile('product_image')) {
+            return;
+        }
+
+        $alt = $request->input('product_image_alt') ?: $product->name;
+        $result = app(ImageService::class)->storeProductImage($request->file('product_image'), $product->id, $alt);
+        try {
+            $image = $product->images()->create([
+                'path' => $result['path'],
+                'alt' => $alt,
+                'width' => $result['width'],
+                'height' => $result['height'],
+                'size_bytes' => $result['size'],
+                'mime' => $result['mime'],
+                'is_primary' => ! $product->images()->exists(),
+                'position' => (int) $product->images()->max('position') + 1,
+            ]);
+            $audit->log('product.image.uploaded', $product, [], ['image_id' => $image->id]);
+        } catch (\Throwable $exception) {
+            Storage::disk('public')->delete($result['path']);
+            throw $exception;
+        }
     }
 
     public function storeImage(Request $request, Product $product, ImageService $images, AuditLogger $audit)
@@ -583,6 +611,10 @@ class ProductController extends Controller
 
     private function validated(Request $request, ?Product $product, SlugService $slugs, SkuGenerator $skus, HtmlSanitizer $sanitizer): array
     {
+        $request->validate([
+            'product_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:7812', 'dimensions:min_width=10,min_height=10,max_width=10000,max_height=10000'],
+            'product_image_alt' => ['nullable', 'string', 'max:220'],
+        ]);
         $data = $request->validate([
             'name' => ['required', 'string', 'max:220'],
             'slug' => ['nullable', 'string', 'max:240'],
@@ -598,6 +630,11 @@ class ProductController extends Controller
             'scheduled_at' => ['nullable', 'date'],
             'short_description' => ['nullable', 'string', 'max:1000'],
             'description' => ['nullable', 'string', 'max:100000'],
+            'youtube_url' => ['nullable', 'string', 'max:2048', function ($attribute, $value, $fail) {
+                if (\App\Support\YoutubeVideo::id($value) === null) {
+                    $fail('Enter a valid YouTube watch, share, Shorts or embed URL.');
+                }
+            }],
             'key_features_text' => ['nullable', 'string', 'max:10000'],
             'applications_text' => ['nullable', 'string', 'max:10000'],
             'compatibility' => ['nullable', 'string', 'max:20000'],

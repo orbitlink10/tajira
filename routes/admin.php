@@ -86,6 +86,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 
             Route::get('pages/{page}/preview', [PageController::class, 'preview'])->name('pages.preview');
+            Route::post('pages/bulk', [PageController::class, 'bulk'])->name('pages.bulk');
             Route::resource('pages', PageController::class)->except(['show']);
             Route::get('articles/{article}/preview', [ArticleController::class, 'preview'])->name('articles.preview');
             Route::resource('articles', ArticleController::class)->except(['show']);

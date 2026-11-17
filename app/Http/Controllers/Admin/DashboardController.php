@@ -40,6 +40,8 @@ class DashboardController extends Controller
             })
             ->count();
 
+        $totalOrders = Order::query()->count();
+        $recentProducts = Product::query()->with('primaryCategory')->latest()->limit(8)->get();
         $recentOrders = Order::query()->latest()->limit(8)->get();
         $recentQuotations = Quotation::query()->latest()->limit(5)->get();
         $activeImports = ImportBatch::query()->whereIn('status', ['pending', 'running', 'paused'])->latest()->limit(5)->get();
@@ -48,7 +50,7 @@ class DashboardController extends Controller
         $seo = $seoAudit->metrics();
 
         return view('admin.dashboard', compact(
-            'revenueToday', 'revenue30', 'ordersToday', 'pendingPayment', 'needsAttention',
+            'totalOrders', 'recentProducts', 'revenueToday', 'revenue30', 'ordersToday', 'pendingPayment', 'needsAttention',
             'newQuotations', 'pendingReviews', 'newMessages', 'lowStock', 'recentOrders',
             'recentQuotations', 'activeImports', 'sourceCounts', 'productCounts', 'seo'
         ));

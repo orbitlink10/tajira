@@ -5,7 +5,8 @@
 @section('subheading', 'Catalogue, pricing, stock, verification and publication.')
 
 @section('content')
-    <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
+    <div class="tajira-products-heading"><div><h2 class="tajira-page-title">Products</h2><p>Manage and view all products available in the system</p></div>@can('catalogue.manage')<a class="btn btn-primary" href="{{ route('admin.products.create') }}">+ Add Product</a>@endcan</div>
+    <details class="tajira-product-tools"><summary>Filters, import and bulk actions</summary><div class="mt-4">    <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
         <div class="flex flex-wrap gap-2">
             <a href="{{ route('admin.products.index') }}" class="badge {{ !request('status') ? 'bg-ink-900 text-white' : 'bg-white text-ink-700 border border-ink-200' }}">All</a>
             @foreach(['draft' => 'Draft', 'pending_review' => 'Review', 'scheduled' => 'Scheduled', 'published' => 'Published', 'archived' => 'Archived'] as $key => $label)
@@ -22,7 +23,7 @@
     </div>
 
     @can('catalogue.manage')
-        <form id="bulk-products-form" method="post" action="{{ route('admin.products.bulk-status') }}" class="card mb-4 flex flex-wrap items-end gap-3 p-4" onsubmit="return confirm('Apply this bulk action? Product publication guardrails still apply.');">
+        <form id="bulk-products-form" method="post" action="{{ route('admin.products.bulk-status') }}" class="card mb-4 flex flex-wrap items-end gap-3 p-4 tajira-bulk-tools" onsubmit="return confirm('Apply this bulk action? Product publication guardrails still apply.');">
             @csrf
             <div class="flex-1">
                 <label for="bulk-action" class="field-label">Bulk action on selected products</label>
@@ -64,36 +65,30 @@
         <a href="{{ route('admin.products.index') }}" class="text-sm text-ink-600 underline">Reset</a>
     </form>
 
-    <div class="card overflow-hidden">
+</div></details>
+    <div class="card overflow-hidden"><div class="tajira-product-list-head"><h2>Product List</h2><form method="get" action="{{ route('admin.products.index') }}"><label for="product-search" class="sr-only">Search products</label><input id="product-search" name="q" value="{{ request('q') }}" placeholder="Search by product name...">@if(request('brand'))<input type="hidden" name="brand" value="{{ request('brand') }}">@endif @if(request('status'))<input type="hidden" name="status" value="{{ request('status') }}">@endif<button class="btn btn-primary">Search</button></form></div>
         <div class="overflow-x-auto">
-            <table class="table-admin">
-                <thead><tr><th class="w-8"><span class="sr-only">Select</span></th><th>Product</th><th>Brand</th><th>SKU</th><th>Price</th><th>Stock</th><th>Status</th><th>Updated</th><th></th></tr></thead>
+            <table class="table-admin tajira-product-table">
+                <thead><tr><th>#</th><th>Image</th><th>Name</th><th>Price (KES)</th><th>Stock / Status</th><th>Category</th><th>Actions</th></tr></thead>
                 <tbody>
                     @forelse($products as $product)
                         <tr>
-                            <td><input type="checkbox" name="ids[]" value="{{ $product->id }}" form="bulk-products-form" class="h-4 w-4 rounded border-ink-300" aria-label="Select {{ $product->name }}"></td>
-                            <td>
-                                <div class="flex items-center gap-2">
-                                    <img src="{{ $product->imageUrl() }}" alt="" width="36" height="36" loading="lazy" class="h-9 w-9 rounded border border-ink-100 object-contain bg-white">
-                                    <div>
-                                        <a href="{{ route('admin.products.edit', $product) }}" class="font-semibold text-ink-900 hover:text-brand-700">{{ $product->name }}</a>
-                                        <p class="text-xs text-ink-400">{{ $product->primaryCategory?->name ?: 'No primary category' }} · {{ $product->model ?: 'No model' }}</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>{{ $product->brand?->name ?: '—' }}</td>
-                            <td class="text-xs">{{ $product->sku }}</td>
-                            <td class="whitespace-nowrap">{{ $product->price_on_request ? 'Quote only' : ($product->price_minor !== null ? money($product->effectivePriceMinor()) : '—') }}</td>
-                            <td>{{ $product->stock_quantity }} <span class="text-xs text-ink-400">/ {{ $product->reserved_quantity }} reserved</span></td>
-                            <td><span class="badge {{ $product->status === 'published' ? 'bg-emerald-50 text-emerald-800' : ($product->status === 'archived' ? 'bg-ink-100 text-ink-600' : 'bg-amber-50 text-amber-900') }}">{{ ucwords(str_replace('_', ' ', $product->status)) }}</span></td>
-                            <td class="text-xs text-ink-500">{{ $product->updated_at->diffForHumans() }}</td>
-                            <td class="whitespace-nowrap">
-                                <a class="text-xs font-semibold text-brand-700" href="{{ route('admin.products.edit', $product) }}">Edit</a>
-                                <a class="ml-2 text-xs font-semibold text-ink-500" href="{{ route('admin.products.preview', $product) }}" target="_blank">Preview</a>
-                            </td>
+                            <td><span>{{ $products->firstItem() + $loop->index }}</span>@can('catalogue.manage')<input type="checkbox" name="ids[]" value="{{ $product->id }}" form="bulk-products-form" class="mt-2 block h-4 w-4 rounded border-ink-300" aria-label="Select {{ $product->name }}">@endcan</td>
+                            <td><img class="tajira-product-image" src="{{ $product->imageUrl() }}" alt="{{ $product->name }}" loading="lazy" width="128" height="82"></td>
+                            <td><a href="{{ route('admin.products.edit', $product) }}">{{ $product->name }}</a><small class="tajira-product-detail">{{ $product->sku }} @if($product->brand) &middot; {{ $product->brand->name }} @endif</small></td>
+                            <td class="whitespace-nowrap">{{ $product->formattedPrice() }}</td>
+                            <td>{{ $product->stock_quantity }}<small class="tajira-product-detail">{{ $product->reserved_quantity }} reserved<br>{{ ucwords(str_replace('_', ' ', $product->status)) }}</small></td>
+                            <td>{{ $product->primaryCategory?->name ?: 'Uncategorised' }}</td>
+                            <td><div class="tajira-product-actions">
+                                <a class="preview" href="{{ route('admin.products.preview', $product) }}" target="_blank" rel="noopener">Preview</a>
+                                @can('catalogue.manage')
+                                    <a class="update" href="{{ route('admin.products.edit', $product) }}">Update</a>
+                                    <form method="post" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('Delete this product? This is a soft delete.');">@csrf @method('delete')<button class="delete" type="submit">Delete</button></form>
+                                @endcan
+                            </div></td>
                         </tr>
                     @empty
-                        <tr><td colspan="9" class="text-center text-sm text-ink-500">No products match these filters.</td></tr>
+                        <tr><td colspan="7" class="text-center text-sm text-ink-500">No products match these filters.</td></tr>
                     @endforelse
                 </tbody>
             </table>

@@ -227,6 +227,13 @@
                     </section>
                 @endif
 
+                @if($videoId = \App\Support\YoutubeVideo::id($product->youtube_url))
+                    <section aria-labelledby="video-heading">
+                        <h2 id="video-heading" class="text-xl font-bold text-ink-900">Product video</h2>
+                        <iframe class="mt-3 aspect-video w-full rounded-xl" src="https://www.youtube-nocookie.com/embed/{{ $videoId }}" title="{{ $product->name }} video" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    </section>
+                @endif
+
                 <section aria-labelledby="specifications-heading">
                     <h2 id="specifications-heading" class="text-xl font-bold text-ink-900">Specifications</h2>
                     @if($specifications === [])

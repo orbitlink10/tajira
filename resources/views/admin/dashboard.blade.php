@@ -1,54 +1,42 @@
 @extends('layouts.admin')
 
 @section('title', 'Dashboard')
-@section('heading', 'Operations dashboard')
+@section('heading', 'Administration')
 @section('subheading', 'Sales, stock and content signals across Tajira.')
 
 @section('content')
-    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div class="card p-5">
-            <p class="text-xs font-semibold uppercase tracking-wide text-ink-500">Paid sales today</p>
-            <p class="mt-1 text-2xl font-bold text-ink-900">{{ money((int) $revenueToday) }}</p>
-            <p class="mt-1 text-xs text-ink-500">{{ $ordersToday }} order{{ $ordersToday === 1 ? '' : 's' }} placed today</p>
-        </div>
-        <div class="card p-5">
-            <p class="text-xs font-semibold uppercase tracking-wide text-ink-500">Paid sales · 30 days</p>
-            <p class="mt-1 text-2xl font-bold text-ink-900">{{ money((int) $revenue30) }}</p>
-            <p class="mt-1 text-xs text-ink-500">Based on confirmed payments only</p>
-        </div>
-        <div class="card p-5">
-            <p class="text-xs font-semibold uppercase tracking-wide text-ink-500">Awaiting payment</p>
-            <p class="mt-1 text-2xl font-bold text-ink-900">{{ $pendingPayment }}</p>
-            <p class="mt-1 text-xs text-ink-500">{{ $needsAttention }} failed payment attempt(s) needing review</p>
-        </div>
-        <div class="card p-5">
-            <p class="text-xs font-semibold uppercase tracking-wide text-ink-500">Low or out of stock</p>
-            <p class="mt-1 text-2xl font-bold text-ink-900">{{ $lowStock }}</p>
-            <p class="mt-1 text-xs text-ink-500">Products at or below their threshold</p>
-        </div>
-    </div>
 
-    <div class="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <a href="{{ route('admin.quotations.index') }}" class="card p-4 hover:border-brand-300">
-            <p class="text-xs font-semibold uppercase tracking-wide text-ink-500">New quotations</p>
-            <p class="mt-1 text-xl font-bold text-ink-900">{{ $newQuotations }}</p>
-        </a>
-        <a href="{{ route('admin.reviews.index') }}" class="card p-4 hover:border-brand-300">
-            <p class="text-xs font-semibold uppercase tracking-wide text-ink-500">Reviews awaiting moderation</p>
-            <p class="mt-1 text-xl font-bold text-ink-900">{{ $pendingReviews }}</p>
-        </a>
-        <a href="{{ route('admin.contact-messages.index') }}" class="card p-4 hover:border-brand-300">
-            <p class="text-xs font-semibold uppercase tracking-wide text-ink-500">New contact messages</p>
-            <p class="mt-1 text-xl font-bold text-ink-900">{{ $newMessages }}</p>
-        </a>
-        <a href="{{ route('admin.seo.index') }}" class="card p-4 hover:border-brand-300">
-            <p class="text-xs font-semibold uppercase tracking-wide text-ink-500">SEO issues</p>
-            <p class="mt-1 text-xl font-bold text-ink-900">{{ $seo['missing_meta_description'] + $seo['orphan_products'] + $seo['missing_images'] }}</p>
-        </a>
-    </div>
-
-    <div class="mt-6 grid gap-4 xl:grid-cols-3">
-        <section class="card overflow-hidden xl:col-span-2">
+    <section class="tajira-hero">
+        <div><span class="tajira-pill">Admin Overview</span><h2>Dashboard</h2><p>View and manage customer orders, products, quotations and store content.</p></div>
+        <div class="tajira-actions">
+            @can('catalogue.manage')<a class="primary" href="{{ route('admin.products.create') }}">+ New Product</a>@endcan
+            @can('catalogue.view')<a href="{{ route('admin.products.index') }}">Manage Products</a>@endcan
+            @can('reviews.moderate')<a href="{{ route('admin.reviews.index') }}">Manage Reviews</a>@endcan
+        </div>
+    </section>
+    <div class="tajira-breadcrumb"><a href="{{ route('home') }}">Home</a><span>/</span><span>Dashboard</span></div>
+    <section class="tajira-overview">
+        @foreach([
+            ['OR', 'Orders', $totalOrders, $pendingPayment.' awaiting payment', 'admin.orders.index', 'blue'],
+            ['PR', 'Products', array_sum($productCounts), ($productCounts['published'] ?? 0).' published listings', 'admin.products.index', 'teal'],
+            ['QT', 'Quotations', $newQuotations, 'New quotation requests', 'admin.quotations.index', 'dark'],
+            ['RV', 'Reviews', $pendingReviews, 'Awaiting moderation', 'admin.reviews.index', 'rose'],
+        ] as [$icon, $label, $value, $description, $route, $tone])
+            <article class="tajira-stat {{ $tone }}"><span class="tajira-stat-icon">{{ $icon }}</span><p>{{ $label }}</p><h3>{{ number_format($value) }}</h3><small>{{ $description }}</small><a href="{{ route($route) }}">View {{ strtolower($label) }} <span aria-hidden="true">&rsaquo;</span></a></article>
+        @endforeach
+    </section>
+    <section class="tajira-summary">
+        @foreach([
+            ['Paid sales - 30 days', money((int) $revenue30), 'Confirmed payments', 'dark'],
+            ['Paid sales today', money((int) $revenueToday), $ordersToday.' orders placed today', 'blue'],
+            ['New messages', $newMessages, 'Customer enquiries', 'rose'],
+            ['Low or out of stock', $lowStock, 'Products needing attention', 'teal'],
+        ] as [$label, $value, $description, $tone])
+            <article class="tajira-summary-card {{ $tone }}"><p>{{ $label }}</p><h3>{{ $value }}</h3><small>{{ $description }}</small></article>
+        @endforeach
+    </section>
+    <div class="mt-6 grid gap-4 xl:grid-cols-2">
+        <section class="card overflow-hidden">
             <div class="flex items-center justify-between border-b border-ink-200 px-4 py-3">
                 <h2 class="text-sm font-bold text-ink-900">Recent orders</h2>
                 <a href="{{ route('admin.orders.index') }}" class="text-xs font-semibold text-brand-700 hover:text-brand-900">All orders</a>
@@ -76,27 +64,15 @@
             @endif
         </section>
 
-        <section class="card p-4">
-            <h2 class="text-sm font-bold text-ink-900">Catalogue status</h2>
-            <dl class="mt-3 space-y-2 text-sm">
-                @foreach(['draft' => 'Draft', 'pending_review' => 'Pending review', 'scheduled' => 'Scheduled', 'published' => 'Published', 'archived' => 'Archived'] as $key => $label)
-                    <div class="flex items-center justify-between">
-                        <dt class="text-ink-600">{{ $label }}</dt>
-                        <dd class="font-semibold text-ink-900">{{ $productCounts[$key] ?? 0 }}</dd>
-                    </div>
-                @endforeach
-            </dl>
-            <div class="mt-4 border-t border-ink-100 pt-3">
-                <h3 class="text-xs font-bold uppercase tracking-wide text-ink-500">Discovery staging</h3>
-                <dl class="mt-2 space-y-1.5 text-sm">
-                    @forelse($sourceCounts as $status => $count)
-                        <div class="flex justify-between"><dt class="text-ink-600">{{ ucwords(str_replace('_', ' ', $status)) }}</dt><dd class="font-semibold">{{ $count }}</dd></div>
-                    @empty
-                        <p class="text-xs text-ink-500">No discovery records yet.</p>
-                    @endforelse
-                </dl>
-                <a href="{{ route('admin.imports.index') }}" class="mt-2 inline-block text-xs font-semibold text-brand-700">Open reconciliation dashboard →</a>
-            </div>
+        <section class="card overflow-hidden">
+            <div class="flex items-center justify-between border-b border-ink-200 px-4 py-3"><h2 class="text-sm font-bold text-ink-900">Admin Products</h2><a class="text-xs font-semibold text-brand-700" href="{{ route('admin.products.index') }}">Latest listings</a></div>
+            <div class="overflow-x-auto"><table class="table-admin"><thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th></tr></thead><tbody>
+                @forelse($recentProducts as $product)
+                    <tr><td><a class="font-semibold" href="{{ route('admin.products.edit', $product) }}">{{ $product->name }}</a></td><td>{{ $product->primaryCategory?->name ?? 'Uncategorised' }}</td><td class="whitespace-nowrap">{{ $product->formattedPrice() }}</td><td>{{ $product->availableStock() }}</td><td><span class="badge bg-ink-100 text-ink-700">{{ ucwords(str_replace('_', ' ', $product->status)) }}</span></td></tr>
+                @empty
+                    <tr><td colspan="5" class="text-ink-500">No products yet.</td></tr>
+                @endforelse
+            </tbody></table></div>
         </section>
     </div>
 

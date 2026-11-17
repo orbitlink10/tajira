@@ -5,6 +5,7 @@
 @section('subheading', $product->exists ? 'SKU '.$product->sku.' · '.ucwords(str_replace('_', ' ', $product->status)) : 'Create a draft, verify the data, then publish.')
 
 @section('content')
+    <div class="tajira-products-heading"><div><h2 class="tajira-page-title">{{ $product->exists ? 'Edit Product' : 'Add Product' }}</h2><p>{{ $product->exists ? 'Update product details below' : 'Fill in the product details below to add a new item' }}</p></div></div>
     @if($product->exists)
         <div class="mb-4 flex flex-wrap gap-2">
             @if($product->status !== 'published')
@@ -29,20 +30,60 @@
         </div>
     @endif
 
-    <form method="post" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" class="space-y-4">
+    <form method="post" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data" class="tajira-product-form space-y-4">
         @csrf
         @if($product->exists) @method('put') @endif
 
-        <div class="grid gap-4 xl:grid-cols-[1fr_360px]">
+        <section class="card tajira-product-basics">
+            <div class="tajira-product-fields">
+<div class="sm:col-span-2">
+                            <label for="name" class="field-label">Product name</label>
+                            <input id="name" placeholder="Enter product name" name="name" value="{{ old('name', $product->name) }}" required class="field-input">
+                            <p class="mt-1 text-xs text-ink-500">Use a descriptive name with brand and exact model, without keyword stuffing.</p>
+                        </div>
+<div>
+                            <label for="price" class="field-label">Price (KES)</label>
+                            <input id="price" name="price" type="number" step="0.01" min="0" value="{{ old('price', $product->price_minor !== null ? number_format($product->price_minor / 100, 2, '.', '') : '') }}" class="field-input">
+                        </div>
+<div>
+                            <label for="sale_price" class="field-label">Sale price (KES)</label>
+                            <input id="sale_price" name="sale_price" type="number" step="0.01" min="0" value="{{ old('sale_price', $product->sale_price_minor !== null ? number_format($product->sale_price_minor / 100, 2, '.', '') : '') }}" class="field-input">
+                        </div>
+<div>
+                            <label for="stock_quantity" class="field-label">Quantity</label>
+                            <input id="stock_quantity" type="number" name="stock_quantity" min="0" value="{{ old('stock_quantity', $product->stock_quantity) }}" class="field-input">
+                        </div>
+<div>
+                            <label for="primary_category_id" class="field-label">Category</label>
+                            <select id="primary_category_id" name="primary_category_id" class="field-input">
+                                <option value="">No primary category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" @selected((int) old('primary_category_id', $product->primary_category_id) === $category->id)>{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+<div><label for="meta_description" class="field-label">Meta description</label><textarea id="meta_description" placeholder="Write a short search-friendly summary" name="meta_description" rows="3" class="field-input">{{ old('meta_description', $product->meta_description) }}</textarea></div>
+<div>
+                            <label for="description" class="field-label">Description</label>
+                            <textarea id="description" data-rich-editor name="description" rows="12" class="field-input font-mono text-xs">{{ old('description', $product->description) }}</textarea>
+                            <p class="mt-1 text-xs text-ink-500">Do not paste competitor copy. Content is sanitised before saving.</p>
+                        </div>
+            </div>
+        </section>
+
+        <section class="card tajira-product-video">
+            <h2>Product video (Optional)</h2>
+            <label for="youtube_url" class="field-label">YouTube video URL</label>
+            <input id="youtube_url" name="youtube_url" type="url" class="field-input" value="{{ old('youtube_url', $product->youtube_url) }}" placeholder="https://www.youtube.com/watch?v=...">
+            <p>Paste a YouTube watch, share, Shorts or embed link. The video appears below the description in Product details. Clear the link to remove it.</p>
+        </section>
+        <details class="tajira-product-accordion" @if($errors->any()) open @endif><summary>SEO, Specs and Product Settings</summary>
+        <div class="tajira-product-additional grid gap-4">
             <div class="space-y-4">
                 <section class="card p-5">
                     <h2 class="text-sm font-bold text-ink-900">Identity</h2>
                     <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                        <div class="sm:col-span-2">
-                            <label for="name" class="field-label">Product name</label>
-                            <input id="name" name="name" value="{{ old('name', $product->name) }}" required class="field-input">
-                            <p class="mt-1 text-xs text-ink-500">Use a descriptive name with brand and exact model, without keyword stuffing.</p>
-                        </div>
+
                         <div>
                             <label for="slug" class="field-label">Slug</label>
                             <input id="slug" name="slug" value="{{ old('slug', $product->slug) }}" class="field-input" placeholder="Generated from name if blank">
@@ -60,15 +101,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div>
-                            <label for="primary_category_id" class="field-label">Primary category</label>
-                            <select id="primary_category_id" name="primary_category_id" class="field-input">
-                                <option value="">No primary category</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" @selected((int) old('primary_category_id', $product->primary_category_id) === $category->id)>{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+
                         <div>
                             <label for="model" class="field-label">Model</label>
                             <input id="model" name="model" value="{{ old('model', $product->model) }}" class="field-input">
@@ -95,11 +128,7 @@
                             <label for="short_description" class="field-label">Buyer-focused summary</label>
                             <textarea id="short_description" name="short_description" rows="3" maxlength="1000" class="field-input">{{ old('short_description', $product->short_description) }}</textarea>
                         </div>
-                        <div>
-                            <label for="description" class="field-label">Original description (HTML)</label>
-                            <textarea id="description" name="description" rows="12" class="field-input font-mono text-xs">{{ old('description', $product->description) }}</textarea>
-                            <p class="mt-1 text-xs text-ink-500">Do not paste competitor copy. Content is sanitised before saving.</p>
-                        </div>
+
                         <div class="grid gap-4 sm:grid-cols-2">
                             <div>
                                 <label for="key_features_text" class="field-label">Key features (one per line)</label>
@@ -242,14 +271,8 @@
                 <section class="card p-5">
                     <h2 class="text-sm font-bold text-ink-900">Pricing</h2>
                     <div class="mt-4 space-y-3">
-                        <div>
-                            <label for="price" class="field-label">Price (KES)</label>
-                            <input id="price" name="price" type="number" step="0.01" min="0" value="{{ old('price', $product->price_minor !== null ? number_format($product->price_minor / 100, 2, '.', '') : '') }}" class="field-input">
-                        </div>
-                        <div>
-                            <label for="sale_price" class="field-label">Sale price (KES)</label>
-                            <input id="sale_price" name="sale_price" type="number" step="0.01" min="0" value="{{ old('sale_price', $product->sale_price_minor !== null ? number_format($product->sale_price_minor / 100, 2, '.', '') : '') }}" class="field-input">
-                        </div>
+
+
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label for="sale_starts_at" class="field-label">Sale starts</label>
@@ -276,10 +299,7 @@
                 <section class="card p-5">
                     <h2 class="text-sm font-bold text-ink-900">Inventory</h2>
                     <div class="mt-4 grid grid-cols-2 gap-3">
-                        <div>
-                            <label for="stock_quantity" class="field-label">On hand</label>
-                            <input id="stock_quantity" type="number" name="stock_quantity" min="0" value="{{ old('stock_quantity', $product->stock_quantity) }}" class="field-input">
-                        </div>
+
                         <div>
                             <label for="low_stock_threshold" class="field-label">Low stock at</label>
                             <input id="low_stock_threshold" type="number" name="low_stock_threshold" min="0" value="{{ old('low_stock_threshold', $product->low_stock_threshold) }}" class="field-input">
@@ -303,23 +323,34 @@
                     <h2 class="text-sm font-bold text-ink-900">SEO</h2>
                     <div class="mt-4 space-y-3">
                         <div><label for="meta_title" class="field-label">Meta title</label><input id="meta_title" name="meta_title" value="{{ old('meta_title', $product->meta_title) }}" class="field-input"></div>
-                        <div><label for="meta_description" class="field-label">Meta description</label><textarea id="meta_description" name="meta_description" rows="3" class="field-input">{{ old('meta_description', $product->meta_description) }}</textarea></div>
+
                         <div><label for="canonical_override" class="field-label">Canonical override</label><input id="canonical_override" name="canonical_override" value="{{ old('canonical_override', $product->canonical_override) }}" class="field-input"></div>
                         <div><label for="og_image_path" class="field-label">Social image path</label><input id="og_image_path" name="og_image_path" value="{{ old('og_image_path', $product->og_image_path) }}" class="field-input"></div>
                         <div><label for="robots" class="field-label">Robots override</label><input id="robots" name="robots" value="{{ old('robots', $product->robots) }}" class="field-input" placeholder="index,follow"></div>
                     </div>
                 </section>
 
-                <button type="submit" class="btn btn-primary w-full py-3">Save product</button>
-                <a href="{{ route('admin.products.index') }}" class="btn btn-secondary w-full">Back to products</a>
+
+
             </aside>
         </div>
+        </details>
+        <details class="tajira-product-accordion" @if($errors->has('product_image') || $errors->has('product_image_alt')) open @endif><summary>Product Image</summary><div class="tajira-accordion-content">
+            <label for="product_image" class="field-label">Upload Image</label>
+            <input id="product_image" name="product_image" type="file" accept="image/jpeg,image/png,image/webp" class="field-input">
+            <p class="mt-3">Upload a product image now, or leave it empty and add one later. JPEG, PNG or WebP, up to 8 MB.</p>
+            <label for="product_image_alt" class="field-label mt-4">Image description (optional)</label>
+            <input id="product_image_alt" name="product_image_alt" value="{{ old('product_image_alt') }}" maxlength="220" class="field-input" placeholder="Uses the product name if left blank">
+            @if($product->exists)<a href="#product-images" class="mt-3 inline-block text-brand-700 font-semibold">Manage existing images below</a>@endif
+        </div></details>
+        <details class="tajira-product-accordion"><summary>Google Merchant</summary><div class="tajira-accordion-content"><p>The store feed uses published, eligible products with verified brand, identifiers, pricing and availability.</p>@can('settings.manage')<a class="text-brand-700 font-semibold" href="{{ route('admin.settings.index') }}">Manage store feed settings</a>@endcan</div></details>
+        <div class="tajira-product-save"><p>Leave the price empty to request a quotation. Review product settings before publishing.</p><div><a href="{{ route('admin.products.index') }}" class="btn btn-secondary">Cancel</a><button type="submit" class="btn btn-primary">Save Product</button></div></div>
     </form>
 
     @if($product->exists)
         <div class="mt-6 grid gap-4 xl:grid-cols-2">
             <section class="card p-5">
-                <h2 class="text-sm font-bold text-ink-900">Images</h2>
+                <h2 id="product-images" class="text-sm font-bold text-ink-900">Images</h2>
                 <div class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
                     @forelse($product->images as $image)
                         <div class="rounded-lg border border-ink-200 p-2">

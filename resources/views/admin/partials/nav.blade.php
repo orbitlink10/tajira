@@ -1,4 +1,14 @@
 @php
+    $navIcons = [
+        'admin.dashboard' => 'M4 13a8 8 0 1 1 16 0 M6 13v3 M18 13v3 M12 13l3-4 M8 17h8',
+        'admin.products.index' => 'M4 9h16v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9Z M9 9V5h6v4 M12 9v3',
+        'admin.categories.index' => 'M4 5h16v14H4z M9 9h7 M9 12h7 M9 15h7 M7 9h.01 M7 12h.01 M7 15h.01',
+        'admin.brands.index' => 'M10 5H6a2 2 0 0 0-2 2v4l8 8 8-8-6-6h-4Z M8 9h.01',
+        'admin.reviews.index' => 'M9 11H5V5h5v4a4 4 0 0 1-4 4 M19 11h-4V5h5v4a4 4 0 0 1-4 4',
+        'admin.orders.index' => 'M4 5h2l2 10h9l2-7H7 M10 19h.01 M17 19h.01',
+        'admin.pages.index' => 'M7 4h7l5 5v11H7V4Z M14 4v5h5 M9 13h6 M9 17h6',
+        'admin.users.index' => 'M8 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M2 21v-3a6 6 0 0 1 12 0v3 M17 4a4 4 0 0 1 0 8 M18 15a5 5 0 0 1 4 5',
+    ];
     $groups = [
         ['label' => null, 'items' => [
             ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'ability' => 'dashboard.view', 'pattern' => 'admin.dashboard'],
@@ -51,7 +61,7 @@
                         @if(Route::has($item['route']))
                             <li>
                                 <a href="{{ route($item['route']) }}" class="admin-nav-link {{ request()->routeIs($item['pattern']) ? 'is-active' : '' }}">
-                                    {{ $item['label'] }}
+                                    <span class="tajira-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="{{ $navIcons[$item['route']] ?? 'M4 5h16v14H4z M8 9h8 M8 13h8 M8 17h4' }}"/></svg></span><span>{{ $item['label'] }}</span>
                                 </a>
                             </li>
                         @endif

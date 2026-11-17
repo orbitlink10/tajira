@@ -12,15 +12,18 @@ class HtmlSanitizer
         'p', 'br', 'strong', 'b', 'em', 'i', 'u', 'h2', 'h3', 'h4',
         'ul', 'ol', 'li', 'a', 'blockquote', 'table', 'thead', 'tbody',
         'tr', 'th', 'td', 'img', 'figure', 'figcaption', 'hr', 'code', 'pre',
-        'div', 'span', 'dl', 'dt', 'dd',
+        'div', 'span', 'dl', 'dt', 'dd', 'iframe', 'video', 'source',
     ];
 
     private const ALLOWED_ATTRIBUTES = [
+        'iframe' => ['src', 'title', 'width', 'height', 'allowfullscreen', 'loading'],
+        'video' => ['src', 'controls', 'width', 'height', 'poster', 'preload'],
+        'source' => ['src', 'type'],
         'a' => ['href', 'title', 'target', 'rel', 'class', 'id'],
         'img' => ['src', 'alt', 'title', 'width', 'height', 'loading', 'decoding', 'class'],
         'th' => ['scope', 'colspan', 'rowspan', 'class'],
         'td' => ['colspan', 'rowspan', 'class'],
-        '*' => ['class', 'id', 'dir', 'lang'],
+        '*' => ['class', 'id', 'dir', 'lang', 'style'],
     ];
 
     public function clean(?string $html): string
@@ -77,6 +80,21 @@ class HtmlSanitizer
                 return;
             }
 
+            if ($tag === 'iframe') {
+                $parts = parse_url($node->getAttribute('src'));
+                $host = strtolower($parts['host'] ?? '');
+                $path = $parts['path'] ?? '';
+                $youtube = in_array($host, ['www.youtube.com', 'www.youtube-nocookie.com'], true)
+                    && preg_match('#^/embed/[A-Za-z0-9_-]+$#', $path);
+                $vimeo = $host === 'player.vimeo.com' && preg_match('#^/video/[0-9]+$#', $path);
+
+                if (($parts['scheme'] ?? '') !== 'https' || isset($parts['user']) || isset($parts['port']) || (! $youtube && ! $vimeo)) {
+                    $node->parentNode?->removeChild($node);
+
+                    return;
+                }
+            }
+
             $allowed = array_merge(self::ALLOWED_ATTRIBUTES['*'], self::ALLOWED_ATTRIBUTES[$tag] ?? []);
             $attributes = [];
 
@@ -93,7 +111,21 @@ class HtmlSanitizer
                     continue;
                 }
 
-                if (in_array($attributeName, ['href', 'src'], true)) {
+                if ($attributeName === 'style') {
+                    $safe = [];
+                    foreach (explode(';', $value) as $declaration) {
+                        if (preg_match('/^\s*(text-align\s*:\s*(left|center|right|justify)|margin-left\s*:\s*[0-9]{1,3}px)\s*$/i', $declaration)) {
+                            $safe[] = trim($declaration);
+                        }
+                    }
+                    if ($safe === []) {
+                        $node->removeAttribute('style');
+                    } else {
+                        $node->setAttribute('style', implode('; ', $safe));
+                    }
+                }
+
+                if (in_array($attributeName, ['href', 'src', 'poster'], true)) {
                     $value = trim($value);
 
                     if (preg_match('/^\s*(javascript|data|vbscript):/i', $value)) {
@@ -102,7 +134,7 @@ class HtmlSanitizer
                         continue;
                     }
 
-                    if ($attributeName === 'src' && ! preg_match('#^(https?://|/)#i', $value)) {
+                    if (in_array($attributeName, ['src', 'poster'], true) && ! preg_match('#^(https?://|/)#i', $value)) {
                         $node->removeAttribute($attributeName);
 
                         continue;
