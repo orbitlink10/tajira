@@ -8,37 +8,37 @@
 @theme {
     --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-    --color-brand-50: #effcfb;
-    --color-brand-100: #d7f7f4;
-    --color-brand-200: #b0eeea;
-    --color-brand-300: #78dedb;
-    --color-brand-400: #3cc3c4;
-    --color-brand-500: #1fa6a8;
-    --color-brand-600: #128589;
-    --color-brand-700: #126a6e;
-    --color-brand-800: #135559;
-    --color-brand-900: #14474a;
-    --color-brand-950: #052e31;
+    --color-brand-50: #fff7ed;
+    --color-brand-100: #ffedd5;
+    --color-brand-200: #fed7aa;
+    --color-brand-300: #fdba74;
+    --color-brand-400: #ff8a3d;
+    --color-brand-500: #ff6b00;
+    --color-brand-600: #fb5100;
+    --color-brand-700: #c84100;
+    --color-brand-800: #9c3200;
+    --color-brand-900: #7c2c0c;
+    --color-brand-950: #431407;
 
-    --color-ink-50: #f5f7fa;
-    --color-ink-100: #e9eef5;
-    --color-ink-200: #cfdae8;
-    --color-ink-300: #a5b9d1;
-    --color-ink-400: #7492b3;
-    --color-ink-500: #527497;
-    --color-ink-600: #3e5c7d;
-    --color-ink-700: #344b65;
-    --color-ink-800: #2e4055;
-    --color-ink-900: #0b1f3a;
-    --color-ink-950: #061426;
+    --color-ink-50: #fafafa;
+    --color-ink-100: #f5f5f5;
+    --color-ink-200: #e5e5e5;
+    --color-ink-300: #d4d4d4;
+    --color-ink-400: #a3a3a3;
+    --color-ink-500: #737373;
+    --color-ink-600: #525252;
+    --color-ink-700: #404040;
+    --color-ink-800: #333333;
+    --color-ink-900: #212121;
+    --color-ink-950: #1d1d15;
 
-    --color-sand-50: #fffdf7;
-    --color-sand-100: #fdf6e7;
-    --color-sand-200: #fae9c4;
-    --color-sand-300: #f6d78e;
-    --color-sand-400: #f0bd52;
-    --color-sand-500: #e9a42c;
-    --color-sand-600: #d3831e;
+    --color-sand-50: #fff7ed;
+    --color-sand-100: #ffedd5;
+    --color-sand-200: #fed7aa;
+    --color-sand-300: #ffb477;
+    --color-sand-400: #ff6b00;
+    --color-sand-500: #fb5100;
+    --color-sand-600: #c84100;
 }
 
 @layer base {
@@ -238,13 +238,13 @@
     }
 
     .btn-primary {
-        background: var(--color-brand-700);
-        color: white;
+        background: var(--color-brand-500);
+        color: var(--color-ink-950);
         box-shadow: 0 1px 2px rgb(6 20 38 / 0.08);
     }
 
     .btn-primary:hover {
-        background: var(--color-brand-800);
+        background: var(--color-brand-600);
     }
 
     .btn-secondary {
@@ -871,8 +871,8 @@
     margin: 14px 18px 0;
     padding: 60px 40px;
     border-radius: 22px;
-    background: linear-gradient(110deg, #104787 0%, #146ef5 100%);
-    color: #fff;
+    background: linear-gradient(110deg, #fb5100 0%, #ff6b00 100%);
+    color: var(--color-ink-950);
 }
 .tajira-home-intro h1 {
     margin: 0;
@@ -927,8 +927,8 @@
 }
 .tajira-brand-tile:hover,
 .tajira-brand-tile:focus-visible {
-    background: #f8fbff;
-    color: #104787;
+    background: #fff7ed;
+    color: var(--color-brand-700);
 }
 .tajira-brand-tile:hover img {
     transform: scale(1.035);

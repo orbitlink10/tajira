@@ -29,7 +29,7 @@
     @endif
 
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/logo-mark.svg') }}">
-    <meta name="theme-color" content="#0b1f3a">
+    <meta name="theme-color" content="#ff6b00">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -39,7 +39,7 @@
         @endforeach
     @endisset
 </head>
-<body class="flex min-h-screen flex-col bg-slate-50 text-ink-900 antialiased">
+<body class="tajira-storefront flex min-h-screen flex-col bg-white text-ink-900 antialiased">
     <a href="#main-content" class="skip-link">Skip to content</a>
 
     @include('storefront.partials.header')
