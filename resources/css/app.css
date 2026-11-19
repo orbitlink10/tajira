@@ -865,3 +865,85 @@
 }
 @media (max-width: 1023px) { .tajira-sidebar-session { display: none; } }
 @media (max-width: 540px) { .tajira-admin .tajira-sidebar { left: 12px; width: min(308px, calc(100vw - 24px)); } }
+
+/* Homepage introduction and brand catalogue, below the shared storefront header. */
+.tajira-home-intro {
+    margin: 14px 18px 0;
+    padding: 60px 40px;
+    border-radius: 22px;
+    background: linear-gradient(110deg, #104787 0%, #146ef5 100%);
+    color: #fff;
+}
+.tajira-home-intro h1 {
+    margin: 0;
+    font-size: clamp(1.75rem, 3.1vw, 2.625rem);
+    font-weight: 750;
+    line-height: 1.2;
+    letter-spacing: -.025em;
+}
+.tajira-home-intro p {
+    max-width: 960px;
+    margin: 16px 0 0;
+    font-size: clamp(1rem, 1.7vw, 1.5rem);
+    line-height: 1.45;
+}
+.tajira-brand-showcase {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    width: calc(100% - 120px);
+    max-width: 1584px;
+    margin: 30px auto 0;
+    border: 1px solid #e2e2e2;
+    background: #e2e2e2;
+}
+.tajira-brand-tile {
+    display: flex;
+    min-width: 0;
+    min-height: 344px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 34px 24px 38px;
+    background: #fff;
+    color: #50575c;
+    text-align: center;
+    transition: background-color .18s ease, color .18s ease;
+}
+.tajira-brand-tile img {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    height: 220px;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    transition: transform .2s ease;
+}
+.tajira-brand-tile h2 {
+    margin: 20px 0 0;
+    font-size: 20px;
+    font-weight: 650;
+    line-height: 1.4;
+}
+.tajira-brand-tile:hover,
+.tajira-brand-tile:focus-visible {
+    background: #f8fbff;
+    color: #104787;
+}
+.tajira-brand-tile:hover img {
+    transform: scale(1.035);
+}
+@media (max-width: 767px) {
+    .tajira-home-intro { margin: 12px; padding: 34px 24px; border-radius: 18px; }
+    .tajira-brand-showcase { width: calc(100% - 24px); grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 22px; }
+    .tajira-brand-tile { min-height: 250px; padding: 24px 16px; }
+    .tajira-brand-tile img { height: 160px; }
+    .tajira-brand-tile h2 { margin-top: 14px; font-size: 18px; }
+}
+@media (max-width: 379px) {
+    .tajira-brand-tile { min-height: 218px; padding: 20px 12px; }
+    .tajira-brand-tile img { height: 130px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .tajira-brand-tile, .tajira-brand-tile img { transition: none; }
+}

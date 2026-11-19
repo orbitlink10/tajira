@@ -1,70 +1,25 @@
 @extends('layouts.storefront')
 
 @section('content')
-    @php
-        $hero = $sections->get('hero');
-        $heroTitle = $hero?->title ?: 'Networking equipment for the way Kenya connects.';
-        $heroSubtitle = $hero?->subtitle ?: 'Routers, switches, wireless links, fibre, security and telephony — organised with structured specifications, clear pricing and quotation support for projects.';
-    @endphp
+    <section class="tajira-home-intro" aria-labelledby="tajira-home-title">
+        <h1 id="tajira-home-title">Tajira Kenya | Networking Equipment for Every Connection</h1>
+        <p>Shop routers, Wi-Fi systems, switches and connectivity solutions from leading brands. Find the right equipment for homes, businesses, installers and ISPs across Kenya.</p>
+    </section>
 
-    <section class="relative overflow-hidden bg-ink-900 text-white">
-        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, #3cc3c4 1px, transparent 0); background-size: 28px 28px;"></div>
-        <div class="absolute -right-24 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-brand-700/30 blur-3xl" aria-hidden="true"></div>
-
-        <div class="container-page relative grid gap-10 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:py-20">
-            <div>
-                <p class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold text-brand-100">
-                    <span class="h-1.5 w-1.5 rounded-full bg-sand-400" aria-hidden="true"></span>
-                    For homes, businesses, installers, institutions and ISPs
-                </p>
-                <h1 class="mt-5 max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-[3.4rem] lg:leading-[1.08]">
-                    {{ $heroTitle }}
-                </h1>
-                <p class="mt-5 max-w-xl text-base leading-7 text-ink-100 sm:text-lg">
-                    {{ $heroSubtitle }}
-                </p>
-                <div class="mt-7 flex flex-wrap gap-3">
-                    <a href="{{ route('products.index') }}" class="btn btn-accent px-5 py-3">Browse products</a>
-                    <a href="{{ route('quotes.create') }}" class="btn border border-white/25 bg-white/10 px-5 py-3 text-white hover:bg-white/20">Request a quotation</a>
-                </div>
-                <dl class="mt-9 grid max-w-xl grid-cols-1 gap-4 text-sm sm:grid-cols-3">
-                    <div class="flex items-start gap-2.5">
-                        <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
-                        <span><span class="block font-semibold text-white">Structured specifications</span><span class="text-ink-200">Filter by the technical details that matter.</span></span>
-                    </div>
-                    <div class="flex items-start gap-2.5">
-                        <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/></svg>
-                        <span><span class="block font-semibold text-white">Delivery by county</span><span class="text-ink-200">Charges and lead times show at checkout.</span></span>
-                    </div>
-                    <div class="flex items-start gap-2.5">
-                        <svg class="mt-0.5 h-5 w-5 shrink-0 text-brand-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/></svg>
-                        <span><span class="block font-semibold text-white">Project quotations</span><span class="text-ink-200">Send a list, get pricing and availability.</span></span>
-                    </div>
-                </dl>
-            </div>
-
-            <div class="relative">
-                <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm sm:p-6">
-                    <div class="flex items-center justify-between">
-                        <p class="text-xs font-bold uppercase tracking-[0.2em] text-brand-200">Shop by need</p>
-                        <a href="{{ $categories->first() ? route('categories.show', $categories->first()->slug) : route('products.index') }}" class="text-xs font-semibold text-white/80 hover:text-white">All categories →</a>
-                    </div>
-                    <div class="mt-4 grid grid-cols-2 gap-3">
-                        @foreach($categories->take(6) as $category)
-                            <a href="{{ route('categories.show', $category->slug) }}" class="group rounded-xl border border-white/10 bg-ink-950/40 p-3.5 transition hover:border-brand-300 hover:bg-ink-950/60">
-                                <span class="flex h-7 w-7 items-center justify-center rounded-md bg-brand-500/20 text-xs font-bold text-brand-200">{{ strtoupper(substr($category->name, 0, 1)) }}</span>
-                                <span class="mt-2 block text-sm font-semibold leading-5 text-white">{{ $category->name }}</span>
-                                <span class="mt-0.5 block text-xs text-ink-300">{{ $category->published_products_count }} products</span>
-                            </a>
-                        @endforeach
-                    </div>
-                    <div class="mt-4 flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-xs text-ink-100">
-                        <svg class="h-4 w-4 shrink-0 text-brand-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M17 11a6 6 0 1 1-12 0 6 6 0 0 1 12 0Z"/></svg>
-                        Search by model, e.g. <span class="font-semibold text-white">RB941-2nD</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section class="tajira-brand-showcase" aria-label="Shop networking equipment by brand">
+        @foreach([
+            ['name' => 'MikroTik', 'slug' => 'mikrotik', 'alt' => 'MikroTik wireless router'],
+            ['name' => 'TP-Link', 'slug' => 'tp-link', 'alt' => 'TP-Link network switch'],
+            ['name' => 'Tenda', 'slug' => 'tenda', 'alt' => 'Tenda wireless router'],
+            ['name' => 'Ubiquiti', 'slug' => 'ubiquiti', 'alt' => 'Ubiquiti UniFi wireless access point'],
+            ['name' => 'Ruijie', 'slug' => 'ruijie', 'alt' => 'Ruijie Reyee outdoor access point'],
+            ['name' => 'D-Link', 'slug' => 'd-link', 'alt' => 'D-Link network switch'],
+        ] as $showcaseBrand)
+            <a class="tajira-brand-tile" href="{{ route('brands.show', $showcaseBrand['slug']) }}">
+                <img src="{{ asset('images/brands/'.$showcaseBrand['slug'].'.webp') }}" alt="{{ $showcaseBrand['alt'] }}" width="320" height="220" decoding="async">
+                <h2>{{ $showcaseBrand['name'] }}</h2>
+            </a>
+        @endforeach
     </section>
 
     <section class="container-page py-12 sm:py-16">

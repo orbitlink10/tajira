@@ -15,7 +15,7 @@ class HomePageTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
-            ->assertSee('Networking equipment for the way Kenya connects.')
+            ->assertSee('Tajira Kenya | Networking Equipment for Every Connection')
             ->assertSee('The catalogue is being prepared.');
     }
 
