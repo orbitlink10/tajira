@@ -71,6 +71,13 @@ class ImageService
             mkdir(dirname($fullPath), 0755, true);
         }
 
+        // Indexed PNGs must be converted before GD can encode them as WebP.
+        if (! imageistruecolor($image)) {
+            imagepalettetotruecolor($image);
+        }
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
+
         if (! imagewebp($image, $fullPath, 82)) {
             imagedestroy($image);
 
