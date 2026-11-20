@@ -6,22 +6,23 @@
         <p>Shop routers, Wi-Fi systems, switches and connectivity solutions from leading brands. Find the right equipment for homes, businesses, installers and ISPs across Kenya.</p>
     </section>
 
-    <section class="tajira-brand-showcase" aria-label="Shop networking equipment by brand">
-        @foreach([
-            ['name' => 'MikroTik', 'slug' => 'mikrotik', 'alt' => 'MikroTik wireless router'],
-            ['name' => 'TP-Link', 'slug' => 'tp-link', 'alt' => 'TP-Link network switch'],
-            ['name' => 'Tenda', 'slug' => 'tenda', 'alt' => 'Tenda wireless router'],
-            ['name' => 'Ubiquiti', 'slug' => 'ubiquiti', 'alt' => 'Ubiquiti UniFi wireless access point'],
-            ['name' => 'Ruijie', 'slug' => 'ruijie', 'alt' => 'Ruijie Reyee outdoor access point'],
-            ['name' => 'D-Link', 'slug' => 'd-link', 'alt' => 'D-Link network switch'],
-        ] as $showcaseBrand)
-            <a class="tajira-brand-tile" href="{{ route('brands.show', $showcaseBrand['slug']) }}">
-                <img src="{{ asset('images/brands/'.$showcaseBrand['slug'].'.webp') }}" alt="{{ $showcaseBrand['alt'] }}" width="320" height="220" decoding="async">
-                <h2>{{ $showcaseBrand['name'] }}</h2>
-            </a>
+    <div class="tajira-home-brands">
+        @foreach($brandSections as $brand)
+            <section class="tajira-brand-section" aria-labelledby="brand-{{ $brand->slug }}">
+                <div class="tajira-brand-section-heading">
+                    <h2 id="brand-{{ $brand->slug }}">{{ $brand->name }}</h2>
+                    <a href="{{ route('brands.show', $brand->slug) }}">View all {{ $brand->name }} products &rarr;</a>
+                </div>
+                <div class="tajira-brand-products">
+                    @forelse($brand->homepageProducts as $product)
+                        <x-brand-product-card :product="$product" />
+                    @empty
+                        <p class="tajira-brand-empty">{{ $brand->name }} products will appear here once published.</p>
+                    @endforelse
+                </div>
+            </section>
         @endforeach
-    </section>
-
+    </div>
     <section class="container-page py-12 sm:py-16">
         <x-section-heading
             eyebrow="Catalogue"

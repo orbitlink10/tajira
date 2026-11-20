@@ -53,6 +53,25 @@ class HomeController extends Controller
             return Brand::query()->where('is_active', true)->orderBy('name')->get(['id', 'name', 'slug', 'logo_path']);
         });
 
+        $brandSections = collect(['mikrotik', 'tp-link', 'tenda', 'ubiquiti', 'ruijie', 'd-link'])
+            ->map(function (string $slug) use ($brands) {
+                $brand = $brands->firstWhere('slug', $slug);
+
+                if (!$brand) {
+                    return null;
+                }
+
+                $brand->setRelation('homepageProducts', $brand->publishedProducts()
+                    ->with(['brand:id,name,slug', 'primaryImage', 'activeVariants'])
+                    ->orderByDesc('is_featured')
+                    ->orderByDesc('published_at')
+                    ->orderByDesc('id')
+                    ->limit(5)
+                    ->get());
+
+                return $brand;
+            })->filter();
+
         $guides = Article::query()
             ->published()
             ->where('is_indexable', true)
@@ -76,6 +95,6 @@ class HomeController extends Controller
             $structured->localBusiness(),
         ]));
 
-        return view('storefront.home', compact('featured', 'categories', 'brands', 'guides', 'sections', 'meta', 'jsonLd'));
+        return view('storefront.home', compact('featured', 'categories', 'brands', 'brandSections', 'guides', 'sections', 'meta', 'jsonLd'));
     }
 }
