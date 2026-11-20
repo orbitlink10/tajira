@@ -2,8 +2,20 @@
 
 @section('content')
     <section class="tajira-home-intro" aria-labelledby="tajira-home-title">
-        <h1 id="tajira-home-title">Tajira Kenya | Networking Equipment for Every Connection</h1>
-        <p>Shop routers, Wi-Fi systems, switches and connectivity solutions from leading brands. Find the right equipment for homes, businesses, installers and ISPs across Kenya.</p>
+        <div class="tajira-hero-copy">
+            <p class="tajira-hero-eyebrow">Tajira Kenya</p>
+            <h1 id="tajira-home-title">Simple. Smart.<br>Connected.</h1>
+            <p class="tajira-hero-description">Routers, Wi-Fi, switches and network essentials for homes, businesses and ISPs across Kenya.</p>
+            <a class="tajira-hero-link" href="{{ route('products.index') }}">Explore networking equipment <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        <div class="tajira-hero-feature">
+            <img src="{{ asset('images/brands/mikrotik.webp') }}" alt="MikroTik wireless router with antennas and Ethernet ports" width="640" height="480" fetchpriority="high" decoding="async">
+        </div>
+        <div class="tajira-hero-lineup" aria-label="Networking brands available at Tajira">
+            @foreach(['tp-link' => 'TP-Link network switch', 'tenda' => 'Tenda Wi-Fi router', 'ubiquiti' => 'Ubiquiti wireless access point', 'ruijie' => 'Ruijie outdoor access point', 'd-link' => 'D-Link network switch'] as $slug => $description)
+                <img src="{{ asset('images/brands/'.$slug.'.webp') }}" alt="{{ $description }}" width="200" height="140" decoding="async">
+            @endforeach
+        </div>
     </section>
 
     <div class="tajira-home-brands">
