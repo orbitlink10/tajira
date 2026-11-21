@@ -645,6 +645,7 @@ class ProductController extends Controller
             'sale_starts_at' => ['nullable', 'date'],
             'sale_ends_at' => ['nullable', 'date', 'after_or_equal:sale_starts_at'],
             'price_on_request' => ['nullable', 'boolean'],
+            'price_visibility' => ['nullable', 'in:quote,public'],
             'tax_mode' => ['required', 'in:default,inclusive,exclusive'],
             'stock_quantity' => ['nullable', 'integer', 'min:0'],
             'low_stock_threshold' => ['nullable', 'integer', 'min:0'],
@@ -681,6 +682,14 @@ class ProductController extends Controller
         $data['price_minor'] = Money::parseToMinor($request->input('price'));
         $data['sale_price_minor'] = Money::parseToMinor($request->input('sale_price'));
         $data['price_on_request'] = $request->boolean('price_on_request');
+        if ($request->filled('price_visibility')) {
+            $data['price_on_request'] = $request->input('price_visibility') === 'quote';
+        } elseif ($product && $data['price_minor'] !== null
+            && ($data['price_minor'] !== $product->price_minor || $data['sale_price_minor'] !== $product->sale_price_minor)) {
+            // A price edit from an older open form must not restore its stale quotation-only checkbox.
+            $data['price_on_request'] = false;
+        }
+        unset($data['price_visibility']);
         $data['tax_inclusive'] = match ($data['tax_mode']) {
             'inclusive' => true,
             'exclusive' => false,

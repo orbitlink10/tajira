@@ -33,6 +33,7 @@
     <form method="post" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data" class="tajira-product-form space-y-4" x-data="{ quotationOnly: @js((bool) old('price_on_request', $product->price_on_request)) }">
         @csrf
         @if($product->exists) @method('put') @endif
+        <input type="hidden" name="price_visibility" value="{{ old('price_on_request', $product->price_on_request) ? 'quote' : 'public' }}" :value="quotationOnly ? 'quote' : 'public'">
 
         <section class="card tajira-product-basics">
             <div class="tajira-product-fields">
@@ -49,7 +50,7 @@
                         </div>
 <div>
                             <label for="sale_price" class="field-label">Sale price (KES)</label>
-                            <input id="sale_price" name="sale_price" type="number" step="0.01" min="0" value="{{ old('sale_price', $product->sale_price_minor !== null ? number_format($product->sale_price_minor / 100, 2, '.', '') : '') }}" class="field-input">
+                            <input id="sale_price" name="sale_price" type="number" step="0.01" min="0" value="{{ old('sale_price', $product->sale_price_minor !== null ? number_format($product->sale_price_minor / 100, 2, '.', '') : '') }}" class="field-input" @input="if ($event.target.value !== '') quotationOnly = false">
                         </div>
 <div>
                             <label for="stock_quantity" class="field-label">Quantity</label>

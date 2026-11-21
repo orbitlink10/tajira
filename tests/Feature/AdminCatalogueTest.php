@@ -89,6 +89,20 @@ class AdminCatalogueTest extends TestCase
         $product->refresh();
         $this->assertSame(Product::STATUS_PUBLISHED, $product->status);
         $this->assertSame(150000, $product->price_minor);
+        $pricingUpdate = $update;
+        $pricingUpdate['sale_price'] = '1200';
+        $pricingUpdate['price_on_request'] = '1';
+        $this->put(route('admin.products.update', $product), $pricingUpdate)->assertSessionHasNoErrors();
+        $this->assertFalse($product->fresh()->price_on_request);
+        $this->assertSame(120000, $product->fresh()->effectivePriceMinor());
+
+        $pricingUpdate['price_visibility'] = 'quote';
+        $this->put(route('admin.products.update', $product), $pricingUpdate)->assertSessionHasNoErrors();
+        $this->assertTrue($product->fresh()->price_on_request);
+
+        $pricingUpdate['price_visibility'] = 'public';
+        $this->put(route('admin.products.update', $product), $pricingUpdate)->assertSessionHasNoErrors();
+        $this->assertFalse($product->fresh()->price_on_request);
         $this->assertSame(1, $product->images()->count());
         $this->assertSame('admin-created-switch-8-renamed', $product->slug);
         $this->assertDatabaseHas('redirects', ['from_path' => '/products/admin-created-switch-8', 'to_path' => '/products/admin-created-switch-8-renamed']);
