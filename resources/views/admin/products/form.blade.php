@@ -30,7 +30,7 @@
         </div>
     @endif
 
-    <form method="post" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data" class="tajira-product-form space-y-4">
+    <form method="post" action="{{ $product->exists ? route('admin.products.update', $product) : route('admin.products.store') }}" enctype="multipart/form-data" class="tajira-product-form space-y-4" x-data="{ quotationOnly: @js((bool) old('price_on_request', $product->price_on_request)) }">
         @csrf
         @if($product->exists) @method('put') @endif
 
@@ -43,7 +43,9 @@
                         </div>
 <div>
                             <label for="price" class="field-label">Price (KES)</label>
-                            <input id="price" name="price" type="number" step="0.01" min="0" value="{{ old('price', $product->price_minor !== null ? number_format($product->price_minor / 100, 2, '.', '') : '') }}" class="field-input">
+                            <input id="price" name="price" type="number" step="0.01" min="0" value="{{ old('price', $product->price_minor !== null ? number_format($product->price_minor / 100, 2, '.', '') : '') }}" class="field-input" @input="if ($event.target.value !== '') quotationOnly = false">
+                            <label class="mt-3 flex items-center gap-2 text-sm"><input type="checkbox" name="price_on_request" value="1" x-model="quotationOnly" class="h-4 w-4 rounded" @checked(old('price_on_request', $product->price_on_request))> Quotation-only (hide price)</label>
+                            <p class="mt-1 text-xs text-ink-500" x-show="quotationOnly">Customers see “Request price”. Entering a price turns this off; check it again to keep pricing private.</p>
                         </div>
 <div>
                             <label for="sale_price" class="field-label">Sale price (KES)</label>
@@ -283,7 +285,6 @@
                                 <input id="sale_ends_at" type="datetime-local" name="sale_ends_at" value="{{ old('sale_ends_at', $product->sale_ends_at?->format('Y-m-d\TH:i')) }}" class="field-input">
                             </div>
                         </div>
-                        <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="price_on_request" value="1" class="h-4 w-4 rounded" @checked(old('price_on_request', $product->price_on_request))> Quotation-only (no online price)</label>
                         <div>
                             <label for="tax_mode" class="field-label">Tax treatment</label>
                             @php($taxMode = old('tax_mode', $product->tax_inclusive === true ? 'inclusive' : ($product->tax_inclusive === false ? 'exclusive' : 'default')))
